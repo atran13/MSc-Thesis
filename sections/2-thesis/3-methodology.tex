@@ -1,10 +1,20 @@
 \section{Methodology}
 \label{sec:methodology}
 % Focus on what you add to the existing method. Explain what you will do and why (and how). Do not forget to characterize your research design. There should be a sub-section on the evaluation. 
-%For DS students, this normally means using manually labelled or ground truth data. For IS students, it is not always needed to have a separate methodology section. You can also integrate the approach with the results in one section. It depends on your type of research what is best fitting.
-Write about your methodology here. Focus on your own contribution. Indicate exactly how you will assess your work in terms of evaluation.
-
+%For DS students, this normally means using manually labelled or ground truth data. 
+% Write about your methodology here. Focus on your own contribution. Indicate exactly how you will assess your work in terms of evaluation.
 % It is possible to use a separate section for the Experimental Setup, which then focuses on all settings used in your experiments. It also possible to address the settings in a sub-section under Methodology. 
+
+The goal of the study is to understand the characteristics of storefront signage in relation to gentrification, via learning the font types, colors, and semantics present. The approach that this study takes comprises of multiple models: scene-text detection, scene-text recognition, color histogram, font recognition, word embedding, and \textbf{\textit{[a binary classifier]}}. This is because the state-of-the-art is that there has not been a model that takes an interest in analyzing scene-text in a comprehensive manner - much of the focus is on detecting [CITE] and recognizing [CITE] text in the wild with better accuracy. Elements such as fonts and colors are only of interest in the domain of graphic design [CITE]. Therefore, this research serves as a pilot case in utilizing these individual models for feature extraction via transfer learning, and subsequently test these features by using them to classify gentrified/non-gentrified storefronts.
+
+The data pipeline is visualized in Figure \ref{fig:pipeline}.
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=\textwidth]{media/methodology/Pipeline.jpg}
+    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified (from both the training and test set) are first fed into the text detection model to extract text instances. Subsequently, the text fonts are extracted with the font classifier, and color histograms are made to record the colors present in each text instances. Next, text strings are extracted with the text recognition model, before being converted into a vector embedding. \textbf{\textit{[A binary classifier]}} is trained and tested on these 3 features, to classify gentrified facades.}
+    \label{fig:pipeline}
+\end{figure*}
 
 \subsection{Data}
 \subsubsection{StreetSwipe}
