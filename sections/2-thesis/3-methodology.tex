@@ -9,25 +9,40 @@ The goal of the study is to understand the characteristics of storefront signage
 
 The data pipeline is visualized in Figure \ref{fig:pipeline}.
 
-\begin{figure*}[h]
+\begin{figure*}[]
     \centering
     \includegraphics[width=\textwidth]{media/methodology/Pipeline.jpg}
-    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified (from both the training and test set) are first fed into the text detection model to extract text instances. Subsequently, the text fonts are extracted with the font classifier, and color histograms are made to record the colors present in each text instances. Next, text strings are extracted with the text recognition model, before being converted into a vector embedding. \textbf{\textit{[A binary classifier]}} is trained and tested on these 3 features, to classify gentrified facades.}
+    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified are first fed into the text detection model to extract text instances. Subsequently, the text fonts are extracted with the font classifier, and color histograms are made to record the colors present in each text instances. Text strings are extracted with the text recognition model, before being converted into a vector embedding. \textbf{\textit{[A binary classifier]}} is trained and tested on these 3 features, to classify gentrified facades.}
     \label{fig:pipeline}
 \end{figure*}
 
 \subsection{Data}
 \subsubsection{StreetSwipe}
-The dataset with gentrified and non-gentrified labels is retrieved from the Streetswipe project. Using crowdsourcing, the project let people decide whether each Amsterdam facade is gentrified, by voting "Yes" or "No" on the streetview images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels are based on what the majority of people voted for, for each facade. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses are also available, however this is out of scope of the study. 
+The dataset with gentrified and non-gentrified labels is retrieved from the StreetSwipe project \cite{streetswipe}. Using crowd-sourcing, the project let people decide whether each Amsterdam facade is gentrified, by voting "Yes" or "No" on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels are based on what the majority of people voted for, for each facade. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses are also available, however is out of scope of the study. 
 
-Since there are two versions of StreetSwipe, the data retrieved exists in two sets, consisting of 1912 higher resolution images from the older version and 530 lower resolution images from the new one, each with its label as well as proportions of "Yes" and "No" votes. The StreetSwipe dataset thus have 2,442 images in total, from which the characteristics of gentrified/non-gentrified storefront signage will be extracted.
+Since there are two versions of StreetSwipe, the data retrieved exists in two sets, consisting of 1912 higher resolution images from the older version and 529 lower resolution images from the new one. The StreetSwipe dataset thus have 2,441 images in total, each with its numbers of "Yes" and "No" votes, and metadata on the facade's location (latitude and longitude) and street name. The new version's images also have more detailed address, name and type of business/services. There are also more votes in the new version than in the older version. The images from the old version are available directly, while the new ones were provided via URLs to a Google APIs bucket, and thus were scraped.
 
-\subsubsection{Synthetic scene-text data}
-In order to recognize signage fonts, it is planned that the dataset and pre-trained model from Ma et al. [2019] \cite{ma2019} are used. Their study focused on detecting and recognizing typeface in streetview imagery of London neighborhoods to ultimately analyze the relationship between typeface and neighborhood income. In order to achieve this, they synthesized a dataset using the method of Gupta et al. [2016] \cite{gupta2016} for text localization in natural images, taking into account the depth and segmentation of the images. The resulting dataset consists of 91,398 streetview images with text added onto appropriate areas, with 11 typefaces of the text (sans serif, decorative, script, serif, etc.) as ground truth labels. On this data, they trained a ResNet-18 for typeface recognition. 
+Feature engineering was done to create the gentrified/non-gentrified label per image, by taking the vote with higher number ("Yes" for gentrified, "No" for non-gentrified). The images were then re-grouped per their corresponding label. Figure \ref{fig:class_size_SS} shows the sample size per class. There is class imbalance in the data, with more than 70\% of the images labelled non-gentrified. This is accounted for in evaluation by using appropriate metrics for classification performance.
 
-Since manually labelling typefaces from the StreetSwipe images would be time consuming and require professional knowledge, having the pre-trained model for typeface recognition and the synthesized typeface data would be more suitable for the scope of the study. The next step to gather this data is to contact the authors of this study, since the data is not publicly available.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{media/methodology/SS_class_size.png}
+    \caption{Sample size per class in StreetSwipe.}
+    \label{fig:SS_class_size}
+\end{figure}
 
-\subsubsection{Amsterdam panoramic data}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{media/methodology/SS_size_ar.png}
+    \caption{Image sizes and aspect ratio distribution in StreetSwipe.}
+    \label{fig:SS_size_ar}
+\end{figure}
+
+Figure \ref{fig:SS_size_ar} shows that the images have quite consistent aspect ratios of approximately 1:1; however, they vary in size, ranging from around 300x300 to 1700x1700, with one outlier of size 2500x1300 (approximately). No normalization was done at this stage, as the text detection framework does not require a specific image size.
+
+While this dataset contains valuable information - that is crowd-sourced label on gentrification - its size is sub-optimal for a machine learning task. Therefore, it is used as the test set for the classifier, and another, larger data is used for training.
+
+\subsubsection{Amsterdam street view data}
 The last dataset aimed to be included in this study is a panoramic streetview data of Amsterdam. It is intended that the complete models will be applied on this data to learn the city-wide distribution of gentrified and non-gentrified storefront signage, based on the attributes associated with gentrification; and thus conclusions can be drawn about potential areas of gentrification in the city. Currently, the shape of the dataset is not yet known.
 
 \subsection{Approach}
