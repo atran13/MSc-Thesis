@@ -1,0 +1,21 @@
+\section{Introduction}
+\label{sec:introduction}
+% Mention scientific context/field, problem statement, research gap and candidate (sub) research question(s). 
+
+Within urban studies, gentrification is a phenomenon widely discussed. First coined by British sociologist Ruth Glass in 1964 in her work about the inner city of London \cite{Glass1964}, the term refers to a neighborhood changing as a result of wealthier residents moving in, gradually displacing existing residents as local housing and service prices increase, and culture homogenized or replaced. Gentrification is a multi-dimensional, multi-step socio-spatial process. It involves functional, symbolic, architectural and social aspects \cite{döring_ulbricht_2018} - all of which are shown in economic and demographic shifts, as well as changes in the aesthetics of the built environment.
+
+For this reason, in researching gentrification, next to looking into economic and demographic indicators, visual indicators such as improvements in the neighborhood's physical appearance and changes in design style are very often analyzed \cite{huang2022, ravuri2022, naik2017, ilic2019}. Comparisons have been drawn between gentrified and non-gentrified facades in terms of old versus new features, openness of the properties (e.g. boarded up windows, fences), greenery, colors,...; but not as much attention has been paid to textual features, namely storefront signage. Most research that has been done so far in this regards are in the context of the US, in which clear distinctions were made between gentrified and non-gentrified storefront signage. The current study, therefore, aim to examine attributes of signage associated with gentrification, utilizing the Amsterdam streetview image dataset from the StreetSwipe project, thus adding to the understanding of gentrification in Amsterdam.
+
+Using crowd-sourcing, StreetSwipe \cite{streetswipe} lets people decide whether each facade in Amsterdam appears gentrified. By using this data, this study draws conclusions based on subjective and common perception of a diverse group of people - arguably a necessity when it comes to understanding a nuanced and multi-faceted phenomenon such as gentrification. The data is analyzed using machine learning techniques, namely Convolution Neural Networks to recognize and extract storefront signage texts and colors, and word embedding to analyze the semantics of texts. In doing so, this study sets out to systematically uncover characteristics of storefront signage that has been classified as gentrified or non-gentrified - in other words, to see what matters to people's perception when judging a facade with regards to gentrification, in terms of text font, color, and semantic. Furthermore, the study aim to apply the learnt characteristics on a bigger set of streetview data of Amsterdam in order to identify potential areas of gentrification in the city - areas that share the same aesthetics as previously labelled data. The research question of this study is stated as follow: 
+
+\noindent\textit{To which extent can scene-text machine learning methods applied on streetview images of storefronts help identify the attributes of signage texts associated to perceived gentrification, and identify potential areas of gentrification in Amsterdam?}
+
+To answer this research question, this study aims to clarify the following sub-questions: 
+
+\begin{enumerate}
+    \item To which extent can font types be extracted accurately from gentrified and non-gentrified storefront images?
+    \item To which extent can text colors be extracted accurately from gentrified and non-gentrified storefront images?
+    \item To which extent can text semantic be extracted accurately from gentrified and non-gentrified storefront images?
+    \item Which characteristics of font, color, and semantic are related to gentrification?
+    \item How do the features extracted from gentrified/non-gentrified signage distribute in a larger dataset of Amsterdam streetview images?
+\end{enumerate}

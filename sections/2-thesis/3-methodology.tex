@@ -1,0 +1,45 @@
+\section{Methodology}
+\label{sec:methodology}
+% Focus on what you add to the existing method. Explain what you will do and why (and how). Do not forget to characterize your research design. There should be a sub-section on the evaluation. 
+%For DS students, this normally means using manually labelled or ground truth data. For IS students, it is not always needed to have a separate methodology section. You can also integrate the approach with the results in one section. It depends on your type of research what is best fitting.
+Write about your methodology here. Focus on your own contribution. Indicate exactly how you will assess your work in terms of evaluation.
+
+% It is possible to use a separate section for the Experimental Setup, which then focuses on all settings used in your experiments. It also possible to address the settings in a sub-section under Methodology. 
+
+\subsection{Data}
+\subsubsection{StreetSwipe}
+The dataset with gentrified and non-gentrified labels is retrieved from the Streetswipe project. Using crowdsourcing, the project let people decide whether each Amsterdam facade is gentrified, by voting "Yes" or "No" on the streetview images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels are based on what the majority of people voted for, for each facade. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses are also available, however this is out of scope of the study. 
+
+Since there are two versions of StreetSwipe, the data retrieved exists in two sets, consisting of 1912 higher resolution images from the older version and 530 lower resolution images from the new one, each with its label as well as proportions of "Yes" and "No" votes. The StreetSwipe dataset thus have 2,442 images in total, from which the characteristics of gentrified/non-gentrified storefront signage will be extracted.
+
+\subsubsection{Synthetic scene-text data}
+In order to recognize signage fonts, it is planned that the dataset and pre-trained model from Ma et al. [2019] \cite{ma2019} are used. Their study focused on detecting and recognizing typeface in streetview imagery of London neighborhoods to ultimately analyze the relationship between typeface and neighborhood income. In order to achieve this, they synthesized a dataset using the method of Gupta et al. [2016] \cite{gupta2016} for text localization in natural images, taking into account the depth and segmentation of the images. The resulting dataset consists of 91,398 streetview images with text added onto appropriate areas, with 11 typefaces of the text (sans serif, decorative, script, serif, etc.) as ground truth labels. On this data, they trained a ResNet-18 for typeface recognition. 
+
+Since manually labelling typefaces from the StreetSwipe images would be time consuming and require professional knowledge, having the pre-trained model for typeface recognition and the synthesized typeface data would be more suitable for the scope of the study. The next step to gather this data is to contact the authors of this study, since the data is not publicly available.
+
+\subsubsection{Amsterdam panoramic data}
+The last dataset aimed to be included in this study is a panoramic streetview data of Amsterdam. It is intended that the complete models will be applied on this data to learn the city-wide distribution of gentrified and non-gentrified storefront signage, based on the attributes associated with gentrification; and thus conclusions can be drawn about potential areas of gentrification in the city. Currently, the shape of the dataset is not yet known.
+
+\subsection{Approach}
+Models will first be trained and tested on the synthetic scene-text data, to learn typeface and color of the text. This dataset will be used for training and testing because it has ground truth label of the typeface and text color, and the most reliable size. After achieving satisfactory performance metrics on this data, the trained models will be applied to the StreetSwipe dataset to recognize typeface and color of signage, in association with the gentrified/non-gentrified labels. On this data, an unsupervised semantic analysis will also be done on the extracted text. And finally, having known which characteristics are indicative of gentrification, the models will be applied to the panoramic Amsterdam dataset to identify the areas in which these characteristics are present.
+
+The following steps will be taken at each stage of the research (with input images from each dataset):
+\begin{enumerate}
+    \item \textbf{Scene-text detection}: Detecting text in an image, by creating bounding boxes using CRAFT (Character-Region Awareness For Text detection). Compared to another state-of-the-art text detection model - EAST (Efficient and accurate scene text detector) - CRAFT is more accurate and is multi-lingual.
+    \item \textbf{Color detection} Create color histograms for the distribution of colors present in the text box.
+    \item \textbf{Typeface recognition} Recognize the font of the text using Ma et al. [2019] pre-trained model.
+    \item \textbf{Scene-text recognition} Transcribe the image-text into text strings readable by models, using MORAN (Multi-object rectified attention network).
+    \item \textbf{Semantic analysis} Transform the extracted texts into a word vector representation using FastText, to recognize languages and semantics such as cryptic or literal store names, inclusion of ethnicity, religions, etc.
+\end{enumerate}
+
+
+% ALTERNATIVELY
+% \subsubsection{ST-Sem}
+% Trained to classify points of interest of facades
+% Scene recognition using ResNet152-places365 pre-trained model
+% + Scene-text detection using TextBoxes++
+% + Scene-text recognition using MORAN
+% + Semantic matching using FastText (a vector space model)
+
+\subsection{Evaluation}
+Evaluation is done with the goal to see how accurate the models for extracting fonts, colors, and semantic are. For font and color, this is aimed to be done with the Ma et al.'s synthetic data, with an 80-20 split for the train and test set, respectively. It is appropriate as it has ground truth labels for font and color of text, whereby precision and recall will be calculated. As for the word embedding model, since this is unsupervised, evaluation will be done by examining the word vector's nearest neighbors to see the semantic information the vector captured.

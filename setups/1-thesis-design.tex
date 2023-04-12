@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% setup.tex
+% Main tex file for setup and content collocation
+% For the use of University of Amsterdam
+% Information Systems and Data Science students
+% Adapted by Riccardo Fiorista (riccardo.fiorista@proton.me)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Options:
+%% `nolinenumbering` - If you want to remove line numbering on submission
+%% `draftmargins` - If you would like to give your reviewer more space for comments
+\documentclass[nolinenumbering]{thesisdesign}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT METADATA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Thesis related entries
+\title{Gentrification in Storefront Signage in Amsterdam: A Machine Learning Approach with Streetview Imagery}
+\subtitle{Submitted on: \textbf{19-02-2023}}
+
+% Author data
+\authorname{Author: Anh Tran}
+\authoremail{anh.tran1@student.uva.nl}
+% ACM-sepecific entries
+\affiliation{
+    \institution{\thesisinstitution}
+    \city{\thesiscity}
+    \country{\thesiscountry}
+}
+
+% Supervisor data
+\authorname{Supervisor: Tim Alpherts}
+\authoremail{t.o.l.alpherts@uva.nl}
+% ACM-sepecific entries
+\affiliation{
+    \institution{\thesisinstitution}
+    \city{\thesiscity}
+    \country{\thesiscountry}
+}
+
+\begin{abstract}
+    Gentrification refers to the process of a neighborhood changing as a result of wealthier residents moving in, bringing investments and improvements, but displacing the existing residents due to rising prices and changing cultures. More recent developments in streetview imagery and machine learning has allowed for further understanding into the visual aspect of gentrification, by means of large scale analyses of images of facades. However, there has not been much focus on the storefront signage (shop signs and other textual elements) with regards to this topic; while previous studies have pointed out that certain aesthetics of signage (e.g. fonts, colors, semantics) are associated to gentrification. This research aim to fill this gap, by using computer vision techniques on the crowd-sourced StreetSwipe dataset of streetview images in Amsterdam, to understand which attributes of storefront signage account for perceived gentrification.
+\end{abstract}
+
+\keywords{gentrification, computer vision, streetview imagery, storefront signage, scene-text analysis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONTENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\pagestyle{plain}
+\setcounter{page}{1}
+\fixemptypage
+
+\maketitle
+
+% Sections; Try to stick to this setup
+\textbf{Github:} https://github.com/atran13/MSc-Thesis-Gentrification-and-storefront-signage-in-Amsterdam 
+
+\input{sections/1-thesis-design/1-introduction.tex}
+\input{sections/1-thesis-design/2-related-work.tex}
+\input{sections/1-thesis-design/3-methodology.tex}
+\input{sections/1-thesis-design/4-risk-assessment.tex}
+\input{sections/1-thesis-design/5-project-plan.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliographies/references}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
