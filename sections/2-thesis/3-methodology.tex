@@ -33,38 +33,32 @@ Feature engineering was done to create the gentrified/non-gentrified label per i
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{media/methodology/SS_size_ar.png}
+    \includegraphics[width=0.35\textwidth]{media/methodology/SS_size_ar.png}
     \caption{Image sizes and aspect ratio distribution in StreetSwipe.}
     \label{fig:SS_size_ar}
 \end{figure}
 
 Figure \ref{fig:SS_size_ar} shows that the images have quite consistent aspect ratios of approximately 1:1; however, they vary in size, ranging from around 300x300 to 1700x1700, with one outlier of size 2500x1300 (approximately). No normalization was done at this stage, as the text detection framework does not require a specific image size.
 
-While this dataset contains valuable information - that is crowd-sourced label on gentrification - its size is sub-optimal for a machine learning task. Therefore, it is used as the test set for the classifier, and another, larger data is used for training.
+While this dataset contains valuable information - that is crowd-sourced label on gentrification - its size is sub-optimal for training a machine learning model. Therefore, it is used as the test set for the classifier, and another, larger data is used for training.
 
 \subsubsection{Amsterdam street view data}
-The last dataset aimed to be included in this study is a panoramic streetview data of Amsterdam. It is intended that the complete models will be applied on this data to learn the city-wide distribution of gentrified and non-gentrified storefront signage, based on the attributes associated with gentrification; and thus conclusions can be drawn about potential areas of gentrification in the city. Currently, the shape of the dataset is not yet known.
-
-\subsection{Approach}
-Models will first be trained and tested on the synthetic scene-text data, to learn typeface and color of the text. This dataset will be used for training and testing because it has ground truth label of the typeface and text color, and the most reliable size. After achieving satisfactory performance metrics on this data, the trained models will be applied to the StreetSwipe dataset to recognize typeface and color of signage, in association with the gentrified/non-gentrified labels. On this data, an unsupervised semantic analysis will also be done on the extracted text. And finally, having known which characteristics are indicative of gentrification, the models will be applied to the panoramic Amsterdam dataset to identify the areas in which these characteristics are present.
-
-The following steps will be taken at each stage of the research (with input images from each dataset):
-\begin{enumerate}
-    \item \textbf{Scene-text detection}: Detecting text in an image, by creating bounding boxes using CRAFT (Character-Region Awareness For Text detection). Compared to another state-of-the-art text detection model - EAST (Efficient and accurate scene text detector) - CRAFT is more accurate and is multi-lingual.
-    \item \textbf{Color detection} Create color histograms for the distribution of colors present in the text box.
-    \item \textbf{Typeface recognition} Recognize the font of the text using Ma et al. [2019] pre-trained model.
-    \item \textbf{Scene-text recognition} Transcribe the image-text into text strings readable by models, using MORAN (Multi-object rectified attention network).
-    \item \textbf{Semantic analysis} Transform the extracted texts into a word vector representation using FastText, to recognize languages and semantics such as cryptic or literal store names, inclusion of ethnicity, religions, etc.
-\end{enumerate}
 
 
-% ALTERNATIVELY
-% \subsubsection{ST-Sem}
-% Trained to classify points of interest of facades
-% Scene recognition using ResNet152-places365 pre-trained model
-% + Scene-text detection using TextBoxes++
-% + Scene-text recognition using MORAN
-% + Semantic matching using FastText (a vector space model)
+\subsection{Experimental setup}
+\subsubsection{Scene-text detection - CRAFT}
+Detecting text in an image, by creating bounding boxes using CRAFT (Character-Region Awareness For Text detection). Compared to another state-of-the-art text detection model - EAST (Efficient and accurate scene text detector) - CRAFT is more accurate and is multi-lingual.
+
+\subsubsection{Scene-text recognition - PARSeq}
+Transcribe the image-text into text strings readable by models.
+
+\subsubsection{Color detection}
+Create color histograms for the distribution of colors present in the text box.
+
+\subsubsection{Typeface recognition - DeepFont} 
+
+\subsubsection{Semantic analysis - FastText}
+Transform the extracted texts into a word vector representation using FastText, to recognize languages and semantics such as cryptic or literal store names, inclusion of ethnicity, religions, etc.
 
 \subsection{Evaluation}
 Evaluation is done with the goal to see how accurate the models for extracting fonts, colors, and semantic are. For font and color, this is aimed to be done with the Ma et al.'s synthetic data, with an 80-20 split for the train and test set, respectively. It is appropriate as it has ground truth labels for font and color of text, whereby precision and recall will be calculated. As for the word embedding model, since this is unsupervised, evaluation will be done by examining the word vector's nearest neighbors to see the semantic information the vector captured.
