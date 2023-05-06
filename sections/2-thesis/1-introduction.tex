@@ -1,16 +1,43 @@
 \section{Introduction}
 \label{sec:introduction}
-% Mention scientific context/field, problem statement, research gap and (sub) research question(s). 
-Write your introduction here. It should be immediately clear how your proposed contribution is scientifically relevant and fills the research gap.
- \TODO{This is a TODO} This is a test citation \cite{Gruber1995}
 
-Towards the end of the introduction, you should also add your \textit{preliminary} \textbf{reasearch questions (RQ)} here. You may want to state your main RQ like this:
+\section{Introduction}
+\label{sec:introduction}
+% Mention scientific context/field, problem statement, research gap and candidate (sub) research question(s). 
 
-\noindent\textit{To what extent can a master thesis template enhance the quality of the final thesis?}\REMARK{This is a remark}
+Within urban studies, gentrification is a phenomenon widely discussed. First coined by British sociologist Ruth Glass in 1964 in her work about the inner city of London \cite{Glass1964}, the term refers to a neighborhood changing as a result of wealthier residents moving in, gradually displacing existing residents as local housing and service prices increase, and culture homogenized or replaced. Gentrification thus involves an economic and demographic shifts, as well as changes in the aesthetics of the built environment; and for its negative effects on marginalized communities, it is worthwhile to detect and understanding gentrification - economically, demographically, and visually. This study takes a focus on the visual indicators of gentrification, as \textit{\textbf{the appearance of a neighborhood is also telling of its economic and demographic characteristics, and thus gentrification.}}}
 
-You can then list the sub-questions as:
+It is a multi-dimensional, multi-step socio-spatial process. More concretely, Döring and Ulbricht \cite{döring_ulbricht_2018} define gentrification as having 4 aspects: functional, architectural, social, and symbolic:
+
 \begin{itemize}
-    \item How does the structure of the template influence the final grading?
-    \item To what extent is textual guidance sufficient for structured working?
-    \item \dots
+    \item The functional aspect refers to the establishment of services, businesses, and cultural institutions, often with a recognized name and better quality than those existing in the neighborhood.
+    \item The architectural aspect concerns upgrades made to the built environment, and the changing aesthetics that comes along with them. Such upgrades is done to residential as well as social infrastructures, such as public buildings, sidewalks, parks, etc. 
+    \item The symbolic aspect refers to the new image of the gentrifying neighborhood created by the new residents as well as other stakeholders, such as investors and the media, and communicated to the wider public.
+    \item The social aspect concerns the displacement of existing residents and replacement by those with more socioeconomic capital. Economically marginalized by rising costs, and socially marginalized by a changing neighborhood culture, long-established groups of residents find themselves no longer belonging, and the demographic of the neighborhood thus gradually transforms.
 \end{itemize}
+
+As has been noted by Feiereisen and Sassin \cite{feiereisen2021}, the functional, architectural, and symbolic aspects can be seen as constituting the visual indicators of gentrification. While these three aspects take shape in multiple elements and characteristics of the built environment, textual signage is the one element where they converge. A storefront signage would ideally communicate the functionality of the place, while having a certain style of design that reflects and fits in with the overall architectural design of the place, and altogether convey a certain symbolic image, one that gives passerby an impression of what the place stands for, its atmosphere and aesthetics. 
+
+\begin{displayquote}
+    "Shop signs are public texts that communicate what stores sell, who is perceived to be on the street and what their commercial desires are thought to be. [...] Similar to spoken utterances and all written texts, signs are designed for particular audiences [...]. Well-crafted stories are place-making tools inasmuch as they maintain and reproduce prevailing cultural standards and values" \cite{trinch_signsays_2017}. 
+\end{displayquote}
+
+Analyzing storefront signage can thus reveal a lot about the visual as well as semantic pattern of perceived gentrification, and this is where the interest of the current research lies.
+% END
+
+For this reason, in researching gentrification, next to looking into economic and demographic indicators, visual indicators such as improvements in the neighborhood's physical appearance and changes in design style are very often analyzed \cite{huang2022, ravuri2022, naik2017, ilic2019}. Comparisons have been drawn between gentrified and non-gentrified facades in terms of old versus new features, openness of the properties (e.g. boarded up windows, fences), greenery, colors,...; but not as much attention has been paid to textual features, namely storefront signage. Most research that has been done so far in this regards are in the context of the US, in which clear distinctions were made between gentrified and non-gentrified storefront signage. The current study, therefore, aim to examine attributes of signage associated with gentrification, utilizing the Amsterdam streetview image dataset from the StreetSwipe project, thus adding to the understanding of gentrification in Amsterdam.
+
+Using crowd-sourcing, StreetSwipe \cite{streetswipe} lets people decide whether each facade in Amsterdam appears gentrified. By using this data, this study draws conclusions based on subjective and common perception of a diverse group of people - arguably a necessity when it comes to understanding a nuanced and multi-faceted phenomenon such as gentrification. The data is analyzed using machine learning techniques, namely Convolution Neural Networks to recognize and extract storefront signage texts and colors, and word embedding to analyze the semantics of texts. In doing so, this study sets out to systematically uncover characteristics of storefront signage that has been classified as gentrified or non-gentrified - in other words, to see what matters to people's perception when judging a facade with regards to gentrification, in terms of text font, color, and semantic. Furthermore, the study aim to apply the learnt characteristics on a bigger set of streetview data of Amsterdam in order to identify potential areas of gentrification in the city - areas that share the same aesthetics as previously labelled data. The research question of this study is stated as follow: 
+
+\noindent\textit{To which extent can scene-text machine learning methods applied on streetview images of storefronts help identify the attributes of signage texts associated to perceived gentrification, and identify potential areas of gentrification in Amsterdam?}
+
+To answer this research question, this study aims to clarify the following sub-questions: 
+
+\begin{enumerate}
+    \item To which extent can font types be extracted accurately from gentrified and non-gentrified storefront images?
+    \item To which extent can text colors be extracted accurately from gentrified and non-gentrified storefront images?
+    \item To which extent can text semantic be extracted accurately from gentrified and non-gentrified storefront images?
+    \item Which characteristics of font, color, and semantic are related to gentrification?
+    \item How do the features extracted from gentrified/non-gentrified signage distribute in a larger dataset of Amsterdam streetview images?
+\end{enumerate}
+
