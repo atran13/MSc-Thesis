@@ -5,77 +5,80 @@
 % Write about your methodology here. Focus on your own contribution. Indicate exactly how you will assess your work in terms of evaluation.
 % It is possible to use a separate section for the Experimental Setup, which then focuses on all settings used in your experiments. It also possible to address the settings in a sub-section under Methodology. 
 
-The goal of the study is to understand the characteristics of storefront signage in relation to gentrification, via learning the font types, colors, and semantic present. The approach that this study takes comprises of multiple models: scene-text detection, scene-text recognition, color histogram, font recognition, word embedding, and gradient boosting. This is because the state-of-the-art is that there has not been a model that takes an interest in analyzing scene-text in a comprehensive manner - much of the focus is on detecting and recognizing text in the wild with better accuracy. Elements such as fonts and colors are only of interest in the domain of graphic design. Therefore, this research serves as a pilot case in utilizing these individual models for feature extraction via transfer learning, and subsequently test these features by using them to classify gentrified/non-gentrified storefronts.
+\subsection{Data}
+\subsubsection{StreetSwipe}
+The main dataset was retrieved from the StreetSwipe project \cite{streetswipe}. Using crowd-sourcing, the project lets people decide whether each Amsterdam facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
 
-The data pipeline is visualized in Figure \ref{fig:pipeline}.
+Since there are two versions of StreetSwipe, the data retrieved existed in two sets, consisting of 1912 higher resolution images from the older version and 529 lower resolution images from the new one. The StreetSwipe dataset thus had 2,441 images in total, each with its numbers of "Yes" and "No" votes, and metadata on the facade's location (latitude and longitude) and street name. The new version's images also had more detailed address, name, and type of business/services. There were also more votes in the new version than in the old one. The images from the old version were available directly, while the new ones were provided via URLs to a Google APIs bucket, and thus were scraped.
+
+Feature engineering was done to create the gentrified/non-gentrified label per image, by taking the vote higher in volume. The images were then re-grouped per their corresponding labels. There was class imbalance in the data, with 71\% of the images labelled non-gentrified (1731 images; versus 710 gentrified images). The images had quite consistent aspect ratios of approximately 1:1; however, they varied in size, ranging from around 300x300 to 1700x1700, with one outlier of size approximately 2500x1300.
+
+Passing this dataset through the CRAFT text detection model returned 10079 instances in total, with 2610 gentrified instances (26\%) and 7469 non-gentrified instances (74\%). The instances varied a lot in size, typically with width larger than height. The widths ranged from 8 to 1576, and heights ranged from 6 to 795 (see Appendix \ref{sec:apx:first_appendix} - Figure \ref{fig:SS_ins_sz} for a visualization of the distributions).
+
+These text instances were used to train and optimize the classifier.
+
+\subsubsection{Amsterdam panoramic street view data}
+The images were retrieved as panoramas, along with corresponding front, back, left, and right views of the vehicle already extracted. Experiments were done with the text detection model to determine which version of the images would return signage with the least amount of noise. It was determined that passing the panoramas directly through the model returned the most noise (e.g. rows of windows, traffic signs), while the left and right views of the vehicle returned the least noise. Therefore, the left- and right-view images are used in the study.
+
+Having selected gentrified and non-gentrified neighborhoods per existing literature, images were grouped per class and labelled accordingly. This dataset thus represents gentrification according to census data (irregardless of how a facade might be visually perceived). In total, this dataset contains 9340 images, with 5374 gentrified images (58\%) and 3966 non-gentrified (42\%). All images have size 512x512.
+
+Passing this dataset through the text detection model returned 2473 instances in total, with 1633 gentrified instances (66.03\%) and 840 non-gentrified instances (33.97\%). The instances varied in size, typically with width larger than height. The widths ranged from 8 to 510, and heights ranged from 4 to 191 (see Appendix \ref{sec:apx:first_appendix} - Figure \ref{fig:pano_ins_sz} for a visualization of the distributions).
+
+These text instances were used to test the classifier for generalizability.
+
+
+\subsection{Experimental setup}
+
+The data pipeline is visualized in Figure \ref{fig:pipeline}. This section outlines the implementations of CRAFT and the ResNets.
 
 \begin{figure*}[]
     \centering
-    \includegraphics[width=\textwidth]{media/methodology/Pipeline.jpg}
-    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified are first fed into the text detection model to extract text instances. Subsequently, the text fonts are extracted with the font classifier, and color histograms are made to record the colors present in each text instances. Text strings are extracted with the text recognition model, before being converted into a vector embedding. Gradient boosting is trained and tested on these 3 features, to classify gentrified facades.}
+    \includegraphics[width=\textwidth]{media/methodology/Pipeline2.png}
+    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified are first fed into the text detection model (CRAFT) to extract text instances. The ResNet50 is then trained and tested on instances from StreetSwipe. Subsequently, the model is tested on instances from the extended data.}
     \label{fig:pipeline}
 \end{figure*}
 
-\subsection{Data}
-\subsubsection{StreetSwipe}
-The dataset with gentrified and non-gentrified labels is retrieved from the StreetSwipe project \cite{streetswipe}. Using crowd-sourcing, the project lets people decide whether each Amsterdam facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses are also available, however is out of scope of the study. 
 
-Since there are two versions of StreetSwipe, the data retrieved exists in two sets, consisting of 1912 higher resolution images from the older version and 529 lower resolution images from the new one. The StreetSwipe dataset thus have 2,441 images in total, each with its numbers of "Yes" and "No" votes, and metadata on the facade's location (latitude and longitude) and street name. The new version's images also have more detailed address, name, and type of business/services. There are also more votes in the new version than in the older version. The images from the old version are available directly, while the new ones were provided via URLs to a Google APIs bucket, and thus were scraped.
-
-Feature engineering was done to create the gentrified/non-gentrified label per image, by taking the vote higher in volume. The images were then re-grouped per their corresponding label. Figure \ref{fig:class_size_SS} shows the sample size per class. There is class imbalance in the data, with more than 70\% of the images labelled non-gentrified. This is accounted for in evaluation by using appropriate metrics for classification performance.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{media/methodology/SS_class_size.png}
-    \caption{Sample size per class in StreetSwipe.}
-    \label{fig:SS_class_size}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.35\textwidth]{media/methodology/SS_size_ar.png}
-    \caption{Image sizes and aspect ratio distribution in StreetSwipe.}
-    \label{fig:SS_size_ar}
-\end{figure}
-
-Figure \ref{fig:SS_size_ar} shows that the images have quite consistent aspect ratios of approximately 1:1; however, they vary in size, ranging from around 300x300 to 1700x1700, with one outlier of size approximately 2500x1300.
-
-While this dataset contains valuable information - that is crowd-sourced label on gentrification - its size is sub-optimal for training a machine learning model. Therefore, it is used as the test set for the classifier, and another, larger data is used for training.
-
-\subsubsection{Amsterdam panoramic street view data}
-This data consists of panoramic street view images of 5 neighborhoods in Amsterdam: Amsterdamse Poort, Gaasperdam-Zuid, Elandsgrachtbuurt, Bellamybuurt-Noord, and Bellamybuurt-Zuid. This selection of neighborhoods represents gentrified and non-gentrified areas of the cities, based on existing urban studies literature. While Elandsgrachtbuurt (Jordaan) \cite{verlaan_hippies_2022}, Bellamybuurt-Noord, and Bellamybuurt-Zuid (Oud-West) \cite{rettberg_when_2019} have been identified as gentrified, Amsterdamse Poort and Gaasperdam-Zuid (Zuidoost) \cite{pinkster_stickiness_2020} are the opposite. Images of facades in these areas are thus labelled accordingly.
-
-The images were provided with front, back, left, and right views of the vehicle already extracted. Out of these directions, facades appear most consistently on the left and right of the vehicles, therefore only these images are used in the study. All images have size 512x512.
-
-(At the time of writing this draft section, the data was still being processed, due to its large volume. The current information is based on a subset already available; a more detailed and comprehensive exploratory data analysis on this dataset is still to be conducted.)
-
-\subsection{Experimental setup}
 \subsubsection{Scene-text detection - CRAFT}
-The first task is to detect texts in the images of both the training and test sets, using CRAFT (Character-Region Awareness For Text detection) \cite{baek_character_2019} - a multi-lingual text detection model that is robust on curved and long texts.
 
-The pre-trained model is applied on the data via the EasyOCR Python module \cite{noauthor_jaided_nodate}. More specifically, the \textit{detect} method was used, with text confidence threshold \textit{(text\_threshold)} set to 0.75, bounding box extension \textit{(add\_margin)} set to 0, and all other parameters set to their default values. This setting returns 2819 text instances in the images of the gentrified class, and 7680 in the non-gentrified class of the test set (work is still to be done for the training set). Text instances are cropped out by their bounding boxes and grouped per image, per class. 
+The first task is to detect and extract signage in the images of both datasets, using the pre-trained CRAFT model via the EasyOCR Python package.
 
-\subsubsection{Color detection}
-Color histograms \cite{srivastava_review_2015} will be made per text instance to extract the color feature. Through representing the text boxes as the frequency distribution of their colors, the text color can be identified as the most dominant color.
+More specifically, the \textit{detect} method was used, with text confidence threshold \textit{(text\_threshold)} set to 0.75, bounding box extension \textit{(add\_margin)} set to 0, and all other parameters set to their default values.
 
-\subsubsection{Typeface recognition - DeepFont}
-For recognizing the font type of the text, it is aimed that DeepFont \cite{wang_deepfont_2015} will be used. While the official model was not made available by the author, an implementation by \cite{reni_font_2023} can be trained on the AdobeVFR dataset \cite{wang_deepfont_2015} (as no pre-trained weights is available) and subsequently used to extract the font feature from the text boxes.
+Text instances are cropped out by their bounding boxes and grouped per image, per class. 
 
-It can happen that this re-implementation does not return results of high enough quality. In such case, the font feature will be excluded from further analysis. This is due to both the limited time in the current research as well as a lack of existing resources in font recognition, especially for scene-text, and thus a lack of alternatives.
 
-\subsubsection{Scene-text recognition - PARSeq}
-To transcribe the image-text into machine-readable text strings, PARSeq \cite{bautista_scene_2022} will be used. Pre-trained model is available via Torch Hub. Subsequent to text recognition, certain strings will be excluded, such as "Google 2019" (the watermark from Google street view images), "sale", "taxi", "P" (on parking signs)... Such strings are spotted during the text detection phase, and are not of interest for semantic analysis.
+\subsubsection{Classification - ResNet}
 
-\subsubsection{Semantic analysis - FastText}
-The last feature to be extracted is text semantic. Vector representations of the extracted texts will be created using FastText \cite{bojanowski_enriching_2017}, which can provide embeddings for out-of-vocabulary words - a factor to be expected in the context of storefront signage.
+In order to train and optimize the ResNets on StreetSwipe text instances, the data was split into training, validation and test sets with 80:10:10 ratio. The data was randomly shuffled prior to splitting to maintain class distribution per split. Table \ref{tab:data_split} shows the size of each split in the data.
 
-\subsubsection{Classifier - Gradient boosting}
-The features - color, font, semantic - of the training set will be used to train a gradient boosting classifier, with regards to whether a text instance is gentrified or not. Subsequently the model will be tested with the test set features.
+\begin{table}[]
+    \begin{tabular}{lrrrl}
+    \cline{1-4}
+            & \multicolumn{1}{r}{Total} &\multicolumn{1}{r}{Gentrified} & \multicolumn{1}{r}{Non-gentrified} &  \\ \cline{1-4}
+Train       & 8063                      & 2092 (25.95\%)                & 5971 (74.05\%)           &  \\
+Val         & 1008                      & 238 (23.61\%)                 & 770 (76.39\%)            &  \\
+Test        & 1008                      & 280 (27.78\%)                 & 728 (72.22\%)            & 
+    \end{tabular}
+    \caption{Sample size per data split, per class}
+    \label{tab:data_split}
+\end{table}
+
+Transformations applied to the training set include a random resized crop of size 224x224, random horizontal flip, transforming to tensor, and normalization with mean=[0.485, 0.456, 0.406] and std=[0.229, 0.224, 0.225]. For the validation and test sets, transformations include resizing to 224x224, a center crop, transforming to tensor, and normalization with mean and std as above.
+
+Model training was done in PyTorch. Both the ResNet18 and ResNet50 were initialized with pre-trained ImageNet1K-V1 weights, with the final fully connected layer modified to give outputs of size 2. As a baseline, all the weights in the rest of the model were frozen and only the final layer was optimized; and no action was taken to account for class imbalance.
+
+Next, the models were fine-tuned by optimizing all weights in the network. PyTorch's WeightedRandomSampling was applied to the training data loader to mitigate the effect of class imbalance, with each class' weight calculated as 1/(class size).
+
+The loss function used was the cross entropy loss. The optimizer was stochastic gradient descent with a 0.9 momentum. StepLR learning rate decay scheduler was also implemented with a step size of 7 and gamma value of 0.1.
+
+Manual hyperparameters tuning was done on the learning rate, batch size and number of training epochs. These choices of hyperparameters was motivated by the fact that throughout iterations of the models, there was no sign of overfitting, so hyperparameters such as dropout rate, L1 and L2 regularization were not considered.
 
 \subsection{Evaluation}
-Performance metrics - namely precision, recall, and F1 score - will be calculated for the classifier in validation and testing. The formulas are as follow:
-\[Precision = \frac{True Positive}{True Positive + False Positive}\]
+Performance metrics - namely accuracy, precision, recall, and F1 score - were calculated for the classifier in validation and testing. The average metrics across classes (with macro averaging) were used to compare models per epoch, and additionally metrics per class were calculated. The metrics were implemented using torchmetrics' MulticlassAccuracy, MulticlassPrecision, MulticlassRecall, and MulticlassF1Score \cite{torchmetrics}. torchmetrics' ClasswiseWrapper was used to obtain metrics per class.
 
-\[Recall = \frac{True Positive}{True Positive + False Negative}\]
-
+The formulas are as follow:
+\[Accuracy = \frac{TP+TN}{TP+TN+FP+FN}\]
+\[Precision = \frac{TP}{TP+FP}\]
+\[Recall = \frac{TP}{TP+FN}\]
 \[F1 Score = \frac{2 * Precision * Recall}{Precision + Recall}\]

@@ -16,21 +16,21 @@
 %% `nofrontpicture` - If you do not wish to have a graphic on your front-page
 %% `nofirstcompanypicture` - If you do not wish to have a graphic on your front-page
 %% `nosecondcompanypicture` - If you do not wish to have a graphic on your front-page
-\documentclass[ds, nolinenumbering, nofrontpicture, nofirstcompanypicture, nosecondcompanypicture]{mscthesis}
+\documentclass[ds, nofrontpicture, nofirstcompanypicture, nosecondcompanypicture]{mscthesis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT METADATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Thesis related entries
-\title{Gentrification in Storefront Signage in Amsterdam}
-\subtitle{A Machine Learning Approach with Street View Imagery}
+\title{Signs of Gentrification}
+\subtitle{An Analysis into Amsterdam's Storefront Signage with Machine Learning and Street View Imagery}
 
 % Date on which your thesis is submitted
 \date{Fill In The Date In Format DD.MM.YYYY}
 
 % 4-5 keywords should do the trick. They should ideally be phrases of 2-4 words or single words.
-% \keywords{gentrification, street view imagery, storefront signage, scene-text analysis, classification}
+\keywords{gentrification, street view imagery, storefront signage, scene-text analysis, classification}
 
 % Author data
 \authorname{Anh Tran}
@@ -63,32 +63,33 @@
 \pagestyle{plain}
 \setcounter{page}{1}
 
-% \maketitlepage
+\maketitlepage
 \fixemptypage
 
-% \begin{abstract}
+\begin{abstract}
 % % A summary of results should be included. Avoid citations. Maximum length is 200 words.
-% Write your abstract here.
-% \end{abstract}
+Gentrification refers to the process of a neighborhood changing as a result of wealthier residents moving in, bringing investments and improvements, but displacing the existing residents due to rising prices and changing cultures. More recent developments in street view imagery and machine learning has allowed for further understanding into the visual aspect of gentrification, by means of large scale analyses of images of facades. However, there has not been much focus on the storefront signage (shop signs and other textual elements) with regards to this topic; while previous studies have pointed out that certain aesthetics of signage (e.g. fonts, colors, semantics) are associated to gentrification. This research aim to fill this gap, by using computer vision techniques on the crowd-sourced StreetSwipe dataset of streetview images in Amsterdam, to understand...
+\end{abstract}
 
 \maketitle
 
-% \section*{Github Repository}
-% \url{https://github.com/atran13/MSc-Thesis-Gentrification-and-storefront-signage}
+\section*{Github Repository}
+\url{https://github.com/atran13/MSc-Thesis-Gentrification-and-storefront-signage}
 
 % Sections; Try to stick to this setup but you can comment each section
-% \input{sections/2-thesis/1-introduction.tex}
-% \input{sections/2-thesis/2-related-work.tex}
+
+\input{sections/2-thesis/1-introduction.tex}
+\input{sections/2-thesis/2-related-work.tex}
 \input{sections/2-thesis/3-methodology.tex}
-% \input{sections/2-thesis/4-results.tex}
-% \input{sections/2-thesis/5-discussion.tex}
-% \input{sections/2-thesis/6-conclusion.tex}
+\input{sections/2-thesis/4-results.tex}
+\input{sections/2-thesis/5-discussion.tex}
+\input{sections/2-thesis/6-conclusion.tex}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibliographies/references}
 
-% \newpage
-% \input{sections/2-thesis/7-appendix.tex}
+\newpage
+\input{sections/2-thesis/7-appendix.tex}
 
 \end{document}
 

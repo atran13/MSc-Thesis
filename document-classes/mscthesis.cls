@@ -79,7 +79,7 @@
 }{hyperref}
 
 % Allows to use nice todo notes on the paper margin
-\RequirePackage{todonotes}
+% \RequirePackage{todonotes}
 
 % Allows line numbering
 \RequirePackage{lineno}
@@ -102,6 +102,9 @@
 \usepackage{subcaption}
 \usepackage{xspace}
 \usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{csquotes}
+\bibliographystyle{unsrt}
 
 % Code listings for pseudo code
 \usepackage{algorithm2e}
