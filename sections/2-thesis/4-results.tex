@@ -31,37 +31,54 @@ The data was not annotated with bounding boxes of the signage as ground truth fo
 
 \subsection{Classification}
 \subsubsection{Baseline}
-Results of the baseline model is shown in Table \ref{fig:baseline_avg}, along with its classwise metrics in Table \ref{fig:baseline_cls}.
+Results of the baseline model are shown in Table \ref{fig:baseline_metrics}.
 
-\begin{table}[H]
-\begin{tabular}{lcc}
-\multirow{2}{*}{Metrics} & \multicolumn{2}{c}{Baseline} \\ \cline{2-3} 
-                         & Val         & Test           \\ \hline
-Accuracy                 & X           & 0.5810         \\
-Precision                & X           & 0.6852         \\
-Recall                   & X           & 0.5810         \\
-F1-score                 & X           & 0.5800        
-\end{tabular}
-\caption{Macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning}
-\label{fig:baseline_avg}
-\end{table}
-
-\begin{table}[H]
+\begin{table}[h]
 \begin{tabular}{llcc}
-\multirow{2}{*}{Metrics} & \multirow{2}{*}{Class} & \multicolumn{2}{c}{Baseline} \\ \cline{3-4} 
-                         &                        & Val         & Test           \\ \hline
-Accuracy                 & Gentrified             & X           & 0.2143         \\
-                         & Non-gentrified         & X           & 0.9478         \\
-Precision                & Gentrified             & X           & 0.6122         \\
-                         & Non-gentrified         & X           & 0.7582         \\
-Recall                   & Gentrified             & X           & 0.2143         \\
-                         & Non-gentrified         & X           & 0.9478         \\
-F1-score                 & Gentrified             & X           & 0.3175         \\
-                         & Non-gentrified         & X           & 0.8425        
+\multirow{2}{*}{Metrics}   & \multirow{2}{*}{Class} & \multicolumn{2}{c}{Baseline model}        \\ \cline{3-4} 
+                           &                        & Classwise & Average                 \\ \hline
+Accuracy                   & Gentrified             & 0.2143    & \multirow{2}{*}{0.5810} \\
+                           & Non-gentrified         & 0.9478    &                         \\
+Precision                  & Gentrified             & 0.6122    & \multirow{2}{*}{0.6852} \\
+                           & Non-gentrified         & 0.7582    &                         \\
+Recall                     & Gentrified             & 0.2143    & \multirow{2}{*}{0.5810} \\
+                           & Non-gentrified         & 0.9478    &                         \\
+F1-score                   & Gentrified             & 0.3175    & \multirow{2}{*}{0.5800} \\
+                           & Non-gentrified         & 0.8425    &                        
 \end{tabular}
-\caption{Classwise metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning)}
-\label{fig:baseline_cls}
+\caption{Classwise and macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
+\label{fig:baseline_metrics}
 \end{table}
+
+% \begin{table}[H]
+% \begin{tabular}{lcc}
+% \multirow{2}{*}{Metrics} & \multicolumn{2}{c}{Baseline} \\ \cline{2-3} 
+%                          & Val         & Test           \\ \hline
+% Accuracy                 & X           & 0.5810         \\
+% Precision                & X           & 0.6852         \\
+% Recall                   & X           & 0.5810         \\
+% F1-score                 & X           & 0.5800        
+% \end{tabular}
+% \caption{Macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning)}
+% \label{fig:baseline_avg}
+% \end{table}
+
+% \begin{table}[H]
+% \begin{tabular}{llcc}
+% \multirow{2}{*}{Metrics} & \multirow{2}{*}{Class} & \multicolumn{2}{c}{Baseline} \\ \cline{3-4} 
+%                          &                        & Val         & Test           \\ \hline
+% Accuracy                 & Gentrified             & X           & 0.2143         \\
+%                          & Non-gentrified         & X           & 0.9478         \\
+% Precision                & Gentrified             & X           & 0.6122         \\
+%                          & Non-gentrified         & X           & 0.7582         \\
+% Recall                   & Gentrified             & X           & 0.2143         \\
+%                          & Non-gentrified         & X           & 0.9478         \\
+% F1-score                 & Gentrified             & X           & 0.3175         \\
+%                          & Non-gentrified         & X           & 0.8425        
+% \end{tabular}
+% \caption{Classwise metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning)}
+% \label{fig:baseline_cls}
+% \end{table}
 
 \subsubsection{Fine-tuned}
 The best performing model with ResNet18 architecture was found with learning rate set to 0.001, batch size 32, and 60 training epochs. The best performing model with ResNet50 architecture was found with learning rate set to 0.01, batch size 64, and 60 training epochs. The macro-averaged metrics across classes for these models are shown in Table \ref{fig:resnet_compare}. As can be seen, the fine-tuned ResNet50 has better performance. Its classwise metrics are shown in Table \ref{fig:resnet50_cls}.
@@ -75,7 +92,7 @@ Precision                & 0.6185        & 0.6715        & 0.6209        & \text
 Recall                   & 0.6497        & 0.6960        & 0.6506        & \textbf{0.7033}       \\
 F1-score                 & 0.6222        & 0.6781        & 0.6256        & \textbf{0.6865}      
     \end{tabular}
-    \caption{Macro-averaged metrics of best-performing ResNet18 and ResNet50}
+    \caption{Macro-averaged metrics of the best-performing fine-tuned ResNet18 and ResNet50. Between these two models, the fine-tuned ResNet50 performed better.}
     \label{fig:resnet_compare}
 \end{table}
 
@@ -90,10 +107,10 @@ Precision                  & Gentrified             & 0.3953        & 0.5114    
                            & Non-gentrified         & 0.8464        & 0.8476       \\
 Recall                     & Gentrified             & 0.5714        & 0.6429       \\
                            & Non-gentrified         & 0.7299        & 0.7637       \\
-F1-score                   & Gentrified             & 0.4674        & 0.5696       \\
-                           & Non-gentrified         & 0.7838        & 0.8035      
+F1-score                   & Gentrified             & 0.4674        & \textbf{0.5696}       \\
+                           & Non-gentrified         & 0.7838        & \textbf{0.8035}      
 \end{tabular}
-\caption{Classwise metrics of best model (fine-tuned ResNet50, learning rate 0.01, batch size 64, 60 epochs)}
+\caption{Classwise metrics of best model (fine-tuned ResNet50, learning rate 0.01, batch size 64, 60 epochs). Even though there was clear improvements in classifying gentrified signage compared to the baseline model, this model still did better on non-gentrified signage - most notably shown in the F1-scores of each class.}
 \label{fig:resnet50_cls}
 \end{table}
 

@@ -7,11 +7,11 @@
 
 \subsection{Data}
 \subsubsection{StreetSwipe}
-The main dataset was retrieved from the StreetSwipe project \cite{streetswipe}. Using crowd-sourcing, the project lets people decide whether each Amsterdam facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
+The main dataset was retrieved from the Street-Swipe project \cite{streetswipe}. Using crowd-sourcing, the project lets people decide whether each Amsterdam facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
 
 Since there are two versions of StreetSwipe, the data retrieved existed in two sets, consisting of 1912 higher resolution images from the older version and 529 lower resolution images from the new one. The StreetSwipe dataset thus had 2,441 images in total, each with its numbers of "Yes" and "No" votes, and metadata on the facade's location (latitude and longitude) and street name. The new version's images also had more detailed address, name, and type of business/services. There were also more votes in the new version than in the old one. The images from the old version were available directly, while the new ones were provided via URLs to a Google APIs bucket, and thus were scraped.
 
-Feature engineering was done to create the gentrified/non-gentrified label per image, by taking the vote higher in volume. The images were then re-grouped per their corresponding labels. There was class imbalance in the data, with 71\% of the images labelled non-gentrified (1731 images; versus 710 gentrified images). The images had quite consistent aspect ratios of approximately 1:1; however, they varied in size, ranging from around 300x300 to 1700x1700, with one outlier of size approximately 2500x1300.
+Feature engineering was done to create the gentrified/ non-gentrified label per image, by taking the vote higher in volume. The images were then re-grouped per their corresponding labels. There was class imbalance in the data, with 71\% of the images labelled non-gentrified (1731 images; versus 710 gentrified images). The images had quite consistent aspect ratios of approximately 1:1; however, they varied in size, ranging from around 300x300 to 1700x1700, with one outlier of size approximately 2500x1300.
 
 Passing this dataset through the CRAFT text detection model returned 10079 instances in total, with 2610 gentrified instances (26\%) and 7469 non-gentrified instances (74\%). The instances varied a lot in size, typically with width larger than height. The widths ranged from 8 to 1576, and heights ranged from 6 to 795 (see Appendix \ref{sec:apx:first_appendix} - Figure \ref{fig:SS_ins_sz} for a visualization of the distributions).
 
@@ -33,8 +33,8 @@ The data pipeline is visualized in Figure \ref{fig:pipeline}. This section outli
 
 \begin{figure*}[]
     \centering
-    \includegraphics[width=\textwidth]{media/methodology/Pipeline2.png}
-    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified are first fed into the text detection model (CRAFT) to extract text instances. The ResNet50 is then trained and tested on instances from StreetSwipe. Subsequently, the model is tested on instances from the extended data.}
+    \includegraphics[width=\textwidth]{media/methodology/Pipeline.png}
+    \caption{Pipeline: Images of facades labelled gentrified or non-gentrified were first fed into the text detection model (CRAFT) to extract text instances. The ResNets were then trained and tested on instances from StreetSwipe. Subsequently, the best performing model was tested on instances from the extended data.}
     \label{fig:pipeline}
 \end{figure*}
 
