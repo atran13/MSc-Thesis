@@ -31,7 +31,7 @@ These text instances were used to test the classifier for generalizability.
 
 The data pipeline is visualized in Figure \ref{fig:pipeline}. This section outlines the implementations of CRAFT and the ResNets.
 
-\begin{figure*}[]
+\begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{media/methodology/Pipeline.png}
     \caption{Pipeline: Images of facades labelled gentrified or non-gentrified were first fed into the text detection model (CRAFT) to extract text instances. The ResNets were then trained and tested on instances from StreetSwipe. Subsequently, the best performing model was tested on instances from the extended data.}
@@ -73,6 +73,15 @@ Next, the models were fine-tuned by optimizing all weights in the network. PyTor
 The loss function used was the cross entropy loss. The optimizer was stochastic gradient descent with a 0.9 momentum. StepLR learning rate decay scheduler was also implemented with a step size of 7 and gamma value of 0.1.
 
 Manual hyperparameters tuning was done on the learning rate, batch size and number of training epochs. These choices of hyperparameters was motivated by the fact that throughout iterations of the models, there was no sign of overfitting, so hyperparameters such as dropout rate, L1 and L2 regularization were not considered.
+
+\subsubsection{Visual inspection of model's output}
+A random sample of the model's classification output were taken from each of the following subsets:
+
+\begin{itemize}
+    \item StreetSwipe's correctly classified signage per class with classification probability of 80\% and above.
+    \item StreetSwipe's mis-classified signage, categorized by high ($ \geq 80\% $) and low (50-70\%) classification probability.
+    \item Extended data's signage per class with classification probability of 80\% and above (irrespective of ground truth labels).
+\end{itemize}
 
 \subsection{Evaluation}
 Performance metrics - namely accuracy, precision, recall, and F1 score - were calculated for the classifier in validation and testing. The average metrics across classes (with macro averaging) were used to compare models per epoch, and additionally metrics per class were calculated. The metrics were implemented using torchmetrics' MulticlassAccuracy, MulticlassPrecision, MulticlassRecall, and MulticlassF1Score \cite{torchmetrics}. torchmetrics' ClasswiseWrapper was used to obtain metrics per class.

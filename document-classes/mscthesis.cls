@@ -99,12 +99,15 @@
 \usepackage[english]{babel}
 \usepackage{chronology}
 \usepackage{graphicx}
+\usepackage{stfloats}
 \usepackage{subcaption}
 \usepackage{xspace}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{csquotes}
 \bibliographystyle{unsrt}
+
+\usepackage{etoolbox,lipsum}
 
 % Code listings for pseudo code
 \usepackage{algorithm2e}

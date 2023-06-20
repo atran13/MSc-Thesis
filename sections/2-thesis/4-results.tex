@@ -4,14 +4,14 @@
 \subsection{Scene-text detection}
 Some example of the output text instances can be seen in Figure \ref{fig:gen_sample} and \ref{fig:nongen_sample}.
 
-The data was not annotated with bounding boxes of the signage as ground truth for this task, therefore evaluation was done by visual inspection. It was found that the text detection module returned almost all text instances present in the original street view images, including non-horizontal and curved text. Cases where the model failed include very small, and therefore illegible texts; especially in lower resolution images. Additionally, the model also returned some noise, namely texts on street signs (e.g. traffic signs, street names), and watermarks ("©Google", as the images in StreetSwipe were originally from Google Street View) - these instances were manually removed.
+Since there was no bounding box annotations of the signage, evaluation was done by visual inspection. It was found that the text detection module returned almost all text instances present in the original street view images, including non-horizontal and curved text. Cases where the model failed include very small, and therefore illegible texts; especially in lower resolution images. Additionally, the model also returned some noise, namely texts on street signs (e.g. traffic signs, street names), and watermarks ("©Google", as the images in StreetSwipe were originally from Google Street View) - these instances were manually removed.
 
 \begin{figure}
     \begin{tabular}{cccc}
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/gen-8.jpg}} &
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/gen-2.jpg}} \\
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/gen-1.jpg}} &
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/gen-4.jpg}} \\
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-8.jpg}} &
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-2.jpg}} \\
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-1.jpg}} &
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-4.jpg}} \\
     \end{tabular}
     \caption{Gentrified text instances examples}
     \label{fig:gen_sample}
@@ -19,10 +19,10 @@ The data was not annotated with bounding boxes of the signage as ground truth fo
 
 \begin{figure}
     \begin{tabular}{cccc}
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/non-gen-2.jpg}} &
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/non-gen-1.jpg}} \\
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/non-gen-3.jpg}} &
-        \subfloat{\includegraphics[width = 1.5in]{media/results/instances/non-gen-4.jpg}} \\
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-2.jpg}} &
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-1.jpg}} \\
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-3.jpg}} &
+        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-4.jpg}} \\
     \end{tabular}
     \caption{Non-gentrified text instances examples}
     \label{fig:nongen_sample}
@@ -31,7 +31,7 @@ The data was not annotated with bounding boxes of the signage as ground truth fo
 
 \subsection{Classification}
 \subsubsection{Baseline}
-Results of the baseline model are shown in Table \ref{fig:baseline_metrics}.
+Test set results of the baseline model are shown in Table \ref{fig:baseline_metrics}.
 
 \begin{table}[h]
 \begin{tabular}{llcc}
@@ -46,7 +46,7 @@ Recall                     & Gentrified             & 0.2143    & \multirow{2}{*
 F1-score                   & Gentrified             & 0.3175    & \multirow{2}{*}{0.5800} \\
                            & Non-gentrified         & 0.8425    &                        
 \end{tabular}
-\caption{Classwise and macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
+\caption{Test set classwise and macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
 \label{fig:baseline_metrics}
 \end{table}
 
@@ -115,9 +115,9 @@ F1-score                   & Gentrified             & 0.4674        & \textbf{0.
 \end{table}
 
 \subsection{Testing on extended data}
-The average and classwise metrics of the best model in classfying the extended data are presented in Table \ref{fig:resnet50_pano}.
+The average and classwise metrics of the best model in classifying the extended data are presented in Table \ref{fig:resnet50_pano}.
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{tabular}{llcc}
 \multirow{2}{*}{Metrics}   & \multirow{2}{*}{Class} & \multicolumn{2}{c}{Extended data}   \\ \cline{3-4} 
                            &                        & Classwise & Average                 \\ \hline
@@ -130,46 +130,47 @@ Recall                     & Gentrified             & 0.5340    & \multirow{2}{*
 F1-score                   & Gentrified             & 0.6189    & \multirow{2}{*}{0.5571} \\
                            & Non-gentrified         & 0.4953    &                        
 \end{tabular}
-\caption{Average and classwise metrics of the best model in classfying the extended data}
+\caption{Macro-average and classwise metrics of the best model in classifying the extended data. Compared to the metrics on StreetSwipe's test set, there was a consistent decrease of approximately 10\% in all average metrics on this data. Notably, this decrease mainly came from a worsened performance in classifying non-gentrified signage.}
 \label{fig:resnet50_pano}
 \end{table}
 
+\begin{figure*}[]
+    \centering
+    \includegraphics[width=0.8\textwidth]{media/results/output_vis.jpg}
+    \caption{StreetSwipe's correctly classified signage per class with probability of 80\% and above. Note how non-gentrified signage varied more in their characteristics while gentrified signage appeared more homogenized. Non-gentrified signage used more colors, font types, and are largely in Dutch with appearances of English, Chinese, and Arabic. Gentrified signage vary less in font types and colors, and a lot of the instances are in English, with rare instances of non-Latin scripts (e.g. Korean).}
+    \label{fig:output_vis}
+\end{figure*}
+
 \subsection{Model prediction visualization}
+
 \subsubsection{Correct classifications}
-Top 20 samples with the highest probabilities of each class were inspected.
 
-\textit{Gentrified} Correctly classified gentrified signage typically have sans serif fonts. A large portion has white text, background color varies. A larger portion is in English than non-gentrified signs.
+StreetSwipe's signage per class with classification probability of 80\% and above were inspected. This showed the most typical and distinguishing characteristics of signage per class, which can be seen in Figure \ref{fig:output_vis}.
 
-\textit{Non-gentrified} Correctly classified non-gentrified signage typically have serif fonts, look more "decorated" with a larger range of colors. Mostly in Dutch.
+Gentrified signage were more similar in font types and often did not vary in text sizes, while non-gentrified signage used more types of fonts, sometimes more than one fonts on a single sign, and sometimes with varying text sizes and orientations. In addition, gentrified signs mostly had white texts, with minimal variation in background colors. Non-gentrified signs were the opposite: texts varied more in colors, as well as the background colors; and the appearance of neon signage in this class was also notable. In terms of languages, gentrified signage have more English text, with very rare appearances of non-Latin languages (e.g. Korean), while non-gentrified ones are largely in Dutch, with appearances of some English, Chinese and Arabic. And finally, although out of scope of the study, the model also picked up graffiti as instances belonging to non-gentrified facades.
 
-\subsubsection{Incorrect classifications}
-\textit{False gentrified} Signage incorrectly classified as gentrified typically follow the style of correct-gentrified signage: modern and minimalist looking font, also largely white text on dark background or vice versa.
 
-\textit{False non-gentrified} Signage incorrectly classified as non-gentrified also follow the style of correct non-gentrified signage: more decorated fonts, more colors.
+\subsubsection{Incorrect classifications} 
+
+StreetSwipe's mis-classified signage per class with low (50-70\%) and high ($ \geq 80\% $) classification probabilities were inspected. The mis-classified instances with high certainty showed similar characteristics to correctly classified instances (gentrified signage: mainly white text, less variation in font styles and background colors; non-gentrified signage: more variation in fonts, text colors and background colors). On the other hand, mis-classified instances with lower certainty showed a more nuanced picture, whereby if distinguishing features per class appear together in one signage (e.g. non-white text (typical of non-gentrified) on white or dark background (typical of gentrified), signal strength diminished and the model's outputs of the two classes are less obviously distinguishable. Results can be seen in Figure \ref{fig:output_vis_SS_incorrect}.
+
+\begin{figure*}[]
+    \centering
+    \includegraphics[width=0.95\textwidth]{media/results/output_vis-SS_incorrect.jpg}
+    \caption{StreetSwipe's incorrectly classified signage per class, visualized by high and low classification certainty. Incorrect classifications with high certainty from both classes generally had the same characteristics as correctly classified instances (gentrified signage: mainly white text, less variation in font styles and background colors; non-gentrified signage: more variation in fonts, text colors and background colors). These signals diminished as classification certainty decreased: variations in fonts and colors were no longer distinctive across the two classes.}
+    \label{fig:output_vis_SS_incorrect}
+\end{figure*}
+
 
 \subsubsection{Classifications on extended data}
-Also follow the styles of StreetSwipe's gentrified and non-gentrified signage, though more noise and lower resolution.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{media/results/output_vis-pano.jpg}
+    \caption{Model's classifications on the extended data's signage with classification probability of 80\% and above (disregarding ground truth label). It's notable how the model's inference on this data showed the same characteristics per class as in StreetSwipe.}
+    \label{fig:output_vis_pano}
+\end{figure}
+
+Model's classifications on the extended data's signage with classification probability of 80\% and above were inspected (disregarding ground truth label). Signage classified per class followed the same characteristics learned from StreetSwipe. Results can be seen in Figure \ref{fig:output_vis_pano}.
 
 
-% \subsection{Clustering signage by visual representation}
-% The GMM clustering solution of signage by their vector representations is visualized in Figure \ref{fig:clus_visual}. The silhouette coefficient for this clustering solution is \textit{[...]}, which is \textit{[close to/far from]} 1 and thus signifies a \textit{[clear/unclear]} separation between the two clusters.
-
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=0.5\textwidth]{media/results/plhldr_clus.png}
-%     \caption{[PLACEHOLDER] Signage clustering solution by vector visual representation}
-%     \label{fig:clus_visual}
-% \end{figure}
-
-% \subsection{Clustering signage by socio-economic indicators}
-% The GMM clustering solution of signage by their socio-economic feature vectors is visualized in Figure \ref{fig:clus_indicators}. The silhouette coefficient for this clustering solution is \textit{[...]}, which is \textit{[close to/far from]} 1 and thus signifies a \textit{[clear/unclear]} separation between the two clusters.
-
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=0.5\textwidth]{media/results/plhldr_clus.png}
-%     \caption{[PLACEHOLDER] Signage clustering solution by socio-economic feature vectors}
-%     \label{fig:clus_indicators}
-% \end{figure}
-
-% \subsection{Clustering solutions agreement}
-% The Adjusted Rand Index (ARI) was calculated for the two clustering solution. With a value of \textit{[...]}, the ARI indicates that the clusterings of signage by their visual representation and by their socio-economic indicators \textit{[do/do not]} agree.
