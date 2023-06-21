@@ -100,6 +100,7 @@
 \usepackage{chronology}
 \usepackage{graphicx}
 \usepackage{stfloats}
+\usepackage{float}
 \usepackage{subcaption}
 \usepackage{xspace}
 \usepackage{tabularx}
