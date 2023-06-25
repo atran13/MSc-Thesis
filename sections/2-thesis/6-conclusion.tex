@@ -3,16 +3,21 @@
 % Answer each research question and address how the limitations of the study qualify the conclusion.
 % Write your conclusion here. Be sure that the relation between the research gap and your contribution is clear. Be honest about how limitations in the study qualify the answer on the research question.
 
-Answering RQs:
+This study set out to study storefront signage aesthetics in relation to gentrification, utilizing street view image data and computer vision for a larger-scale analysis and better generalizability. By fine-tuning ResNets on 
+the StreetSwipe dataset and analyzing the model output, conclusions to the research questions are as follow:
 
-1. CRAFT was able to detect signage with reasonable accuracy and completeness, though noise remains.
+\begin{enumerate}
+    \item The scene-text detection model CRAFT was able to detect signage with reasonable accuracy and completeness, though noise remains (traffic signs).
+    
+    \item A fine-tuned ResNet50 was able to learn signage features and classify them with a macro-average F1 score of 0.69.
+    
+    \item There was a gap between the model's performance on Street-Swipe and on extended data of other gentrified/non-gentrified neighborhoods. This suggested that "statistically" gentrified did not completely mean visually gentrified. 
+    
+    \item Characteristics of signage correctly classified by the model were in-line with findings of previous research: gentrified signage looked more homogenized, and were more likely to be in English, while non-gentrified signs varied more in fonts and colors, and were largely in Dutch, with more appearances of other languages.
+    
+    \item Mis-classified signage with high certainty followed the styles of the class they were assigned to. As classification certainty decreased, the distinction diminished.
+    
+    \item Signage of the extended dataset follow the style of the class they were assigned to as learned from StreetSwipe.
+\end{enumerate}
 
-2. A fine-tuned ResNet50 is able to learn signage features and classify them with 70\% accuracy.
-
-3. There is a gap between the model's performance on StreetSwipe and on extended data of other gentrified/non-gentrified neighborhoods. This suggests that "statistically" gentrified does not necessarily mean visually gentrified. This points to question about the neighborhood's demographic makeup. It could be the case that displacement did not happen to old residents, or it did happen but old business owners were able to cater to new residents and remained in the gentrified neighborhoods.
-
-4. Characteristics of signage as classified by the model are in-line with findings of previous research: gentrified signage looks more homogenized, and are more likely to be in English, while non-gentrified signs look more decorated with serif fonts and more colors, and are largely in Dutch, with more appearances of other languages.
-
-5. Misclassified signage follow the styles of the class they were classified to (i.e. non-gentrified signage could have minimalist use of fonts and colors, with made them appear gentrified). 
-
-6. Signage of the extended dataset follow the style of the class they were classified to (they look like the correctly classified instances from StreetSwipe). Suggests model is generalizable to detect gentrification through signage, based on visual perception.
+In general, it was found that a computer vision model could do a reasonable job at identifying typical characteristics of gentrified and non-gentrified signage. Further, the model is able to detect the same characteristics on new data, and point out the nuance between the visual and socio-economic states of gentrification. Nonetheless, there were cases where the model failed to detect gentrification based on signage alone. When signage adopted characteristics of the opposite class, perception of gentrification most likely depended on other visual and non-visual features of the facade. While this study was able to show the potential of computer vision in studying signage gentrification, further work is needed in this regard. Expanding the feature space is promising in aiding the model to understand the nuances of human perception.

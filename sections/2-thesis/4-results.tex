@@ -2,37 +2,34 @@
 \label{sec:results}
 
 \subsection{Scene-text detection}
-Some examples of the output text instances can be seen in Figure \ref{fig:gen_sample} and \ref{fig:nongen_sample}.
+Some examples of the output text instances per class can be seen in Figure \ref{fig:instance_ex}.
+
+{
+\setlength\intextsep{7pt}
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.22\textwidth}
+    \includegraphics[width=\textwidth]{media/results/instances/instance_gen.jpg}
+    \caption{Gentrified}
+\end{subfigure}
+\quad
+\begin{subfigure}[b]{0.22\textwidth}
+    \includegraphics[width=\textwidth]{media/results/instances/instance_non.jpg}
+    \caption{Non-gentrified}
+\end{subfigure}
+\caption{Text instances examples.}
+\label{fig:instance_ex}
+\end{figure}
+}
 
 Since there was no bounding box annotations of the signage, evaluation was done by visual inspection. It was found that the text detection model returned almost all text instances present in the original street view images, including non-horizontal and curved text. Cases where the model failed include very small, and therefore illegible texts, especially in lower resolution images. Additionally, the model also returned some noise, namely texts on street signs (e.g. traffic signs, street names), and watermarks ("©Google", as the images in StreetSwipe were originally from Google Street View) - these instances were manually removed.
-
-\begin{figure}
-    \begin{tabular}{cccc}
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-8.jpg}} &
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-2.jpg}} \\
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-1.jpg}} &
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/gen-4.jpg}} \\
-    \end{tabular}
-    \caption{Gentrified text instances examples}
-    \label{fig:gen_sample}
-\end{figure}
-
-\begin{figure}
-    \begin{tabular}{cccc}
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-2.jpg}} &
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-1.jpg}} \\
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-3.jpg}} &
-        \subfloat{\includegraphics[width = 1.4in]{media/results/instances/non-gen-4.jpg}} \\
-    \end{tabular}
-    \caption{Non-gentrified text instances examples}
-    \label{fig:nongen_sample}
-\end{figure}
-
 
 \subsection{Classification}
 \subsubsection{Baseline}
 Test set results of the baseline model are shown in Table \ref{fig:baseline_metrics}. 
 
+% {
+% \setlength\intextsep{7pt}
 \begin{table}[h]
 \begin{tabular}{llcc}
 \toprule
@@ -48,16 +45,18 @@ F1-score                   & Gentrified             & 0.3175    & \multirow{2}{*
                            & Non-gentrified         & 0.8425    &                         \\
 \bottomrule
 \end{tabular}
+\vspace{\baselineskip}
 \caption{Test set classwise and macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
 \label{fig:baseline_metrics}
+\vspace{-8mm}
 \end{table}
-
+% }
 
 \subsubsection{Fine-tuned}
 The best performing model with ResNet18 architecture was found with learning rate set to 0.001, batch size 32, and 60 training epochs. The best performing model with ResNet50 architecture was found with learning rate set to 0.01, batch size 64, and 60 training epochs. The macro-averaged metrics across classes for these models are shown in Table \ref{fig:resnet_compare}. The fine-tuned ResNet50 had better performance, its classwise metrics are shown in Table \ref{fig:resnet50_cls}.
 
-{
-\setlength\intextsep{10pt}
+% {
+% \setlength\intextsep{10pt}
 \begin{table}[h!]
     \begin{tabular}{lcccc}
     \toprule
@@ -68,13 +67,15 @@ Precision                & 0.6185        & 0.6715        & 0.6209        & \text
 Recall                   & 0.6497        & 0.6960        & 0.6506        & \textbf{0.7033}       \\
 F1-score                 & 0.6222        & 0.6781        & 0.6256        & \textbf{0.6865}       \\ \bottomrule
     \end{tabular}
+    \vspace{\baselineskip}
     \caption{Macro-averaged metrics of the best-performing fine-tuned ResNet18 and ResNet50. Between these two models, the fine-tuned ResNet50 performed better.}
     \label{fig:resnet_compare}
+    \vspace{-5mm}
 \end{table}
-}
+% }
 
-{
-\setlength\intextsep{0pt}
+% {
+% \setlength\intextsep{0pt}
 \begin{table}[h!]
 \begin{tabular}{llcc}
 \toprule
@@ -90,16 +91,18 @@ F1-score                   & Gentrified             & 0.4674        & \textbf{0.
                            & Non-gentrified         & 0.7838        & \textbf{0.8035}       \\
 \bottomrule
 \end{tabular}
+\vspace{\baselineskip}
 \caption{Classwise metrics of best model (fine-tuned ResNet50). Even though there was clear improvements in classifying gentrified signage compared to the baseline model, this model still did better on non-gentrified signage - most notably shown in the F1-scores of each class.}
 \label{fig:resnet50_cls}
+\vspace{-7mm}
 \end{table}
-}
+% }
 
 \subsection{Testing on extended data}
 The average and classwise metrics of the best model in classifying the extended data are presented in Table \ref{fig:resnet50_pano}.
 
-{
-\setlength\intextsep{2.65pt}
+% {
+% \setlength\intextsep{2.65pt}
 \begin{table}[h!]
 \begin{tabular}{llcc}
 \toprule
@@ -115,10 +118,12 @@ F1-score                   & Gentrified             & 0.6189    & \multirow{2}{*
                            & Non-gentrified         & 0.4953    &                         \\
 \bottomrule
 \end{tabular}
+\vspace{\baselineskip}
 \caption{Macro-average and classwise metrics of the best model in classifying the extended data. Compared to the metrics on StreetSwipe's test set, there was a consistent decrease of approximately 10\% in all average metrics on this data. Notably, this decrease mainly came from a worsened performance in classifying non-gentrified signage.}
 \label{fig:resnet50_pano}
+\vspace{-5mm}
 \end{table}
-}
+% }
 
 \subsection{Inspecting model's output}
 
