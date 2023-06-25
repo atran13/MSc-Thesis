@@ -5,23 +5,22 @@
 % Write about your methodology here. Focus on your own contribution. Indicate exactly how you will assess your work in terms of evaluation.
 % It is possible to use a separate section for the Experimental Setup, which then focuses on all settings used in your experiments. It also possible to address the settings in a sub-section under Methodology.
 
-This section first describe the data and preprocessing steps taken. This is followed by the experimental and evaluation setup of the study.
-
 \subsection{Data}
 
 An illustration of the areas of the city covered by each dataset can be seen in Figure \ref{fig:map}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.5\textwidth
-]{media/methodology/map1.png}
-    \setlength{\belowcaptionskip}{-10pt}
+{
+\setlength\intextsep{7pt}
+\begin{figure}[h!]
+    \includegraphics[width=0.5\textwidth]{media/methodology/map1.png}
     \caption{Areas of Amsterdam present in StreetSwipe and the extended dataset. StreetSwipe had images mainly from the city center (Centrum-Oost and -West), Oost, and Zuid. The extended dataset had images taken from Centrum-West (Jordaan), Oud-West, De Baarsjes, Nieuw-West, Bijlmer, and Gaasperdam.}
     \label{fig:map}
 \end{figure}
+}
 
 \subsubsection{StreetSwipe}
-The main dataset was retrieved from the Street-Swipe project \cite{streetswipe}. These images were originally from Google Street View, and was cropped to focus on facades (examples can be seen in Figure \ref{fig:SS_example}. Using crowd-sourcing, the project lets people decide whether each Amsterdam facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images of these facades. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
+The main dataset was retrieved from the Street-Swipe project \cite{streetswipe}. These images were originally from Google Street View, and were cropped to focus on facades (examples can be seen in Figure \ref{fig:SS_example}. Using crowd-sourcing, the project lets people decide whether each facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. 
+% Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
 
 \begin{figure}
     \begin{tabular}{cccc}
@@ -40,7 +39,9 @@ Feature engineering was done to create the gentrified/ non-gentrified label per 
 
 
 \subsubsection{Extended data}
-The images were retrieved as panoramas, along with corresponding front, back, left, and right views of the vehicle already extracted (Appendix \ref{sec:apx:appendix1} shows an example). Experiments were done with the text detection model to determine which version of the images would return signage with the least amount of noise. It was determined that passing the panoramas directly through the model returned the most noise (e.g. rows of windows, traffic signs), while the left and right views of the vehicle returned the least noise. Therefore, the left- and right-view images are used in the study. Figure \ref{fig:panolr_example} shows some example images.
+The dataset consisted of street-view panoramas, each taken at a certain coordinate along the streets of Amsterdam. Along with the panoramas were corresponding front, back, left, and right views of the vehicle already extracted (Appendix \ref{sec:apx:appendix1} shows an example of the full shape of the data). Per each location, multiple panoramas were also taken over the years; however, with the scope of the current study - that is to learn a snapshot of the aesthetics of gentrification - only the latest images were retrieved. Further, to ensure that the data contain facades with signage, coordinates of shops, restaurants, cultural venues, etc. in the selected neighborhoods were queried from OpenStreetMap, and panoramas within a small radius from these points of interest were retrieved.
+
+Experiments were done with the text detection model to determine which version of the images would return signage with the least amount of noise. It was determined that passing the panoramas directly through the model returned the most noise (e.g. rows of windows, traffic signs), while the left and right views of the vehicle returned the least noise. Therefore, the left- and right-view images are used in the study. Figure \ref{fig:panolr_example} shows some example images.
 
 Having selected gentrified and non-gentrified neighborhoods per existing literature, images were grouped per class and labelled accordingly. This dataset thus represents gentrification according to census data (irregardless of how a facade might be visually perceived). In total, this dataset contains 9340 images, with 5374 gentrified images (58\%) and 3966 non-gentrified (42\%). All images have size 512x512.
 
