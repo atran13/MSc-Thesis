@@ -24,13 +24,13 @@
 
 % Thesis related entries
 \title{Signs of Gentrification}
-\subtitle{An Analysis into Amsterdam's Storefront Signage with Machine Learning and Street View Imagery}
+\subtitle{Analyzing Amsterdam's Storefront Signage with Machine Learning and Street View Imagery}
 
 % Date on which your thesis is submitted
 \date{DD.MM.YYYY}
 
 % 4-5 keywords should do the trick. They should ideally be phrases of 2-4 words or single words.
-\keywords{gentrification, street view imagery, storefront signage, scene-text detection, classification}
+\keywords{gentrification, storefront signage, street view imagery, computer vision, scene-text detection, classification}
 
 % Author data
 \authorname{Anh Tran}
@@ -67,15 +67,16 @@
 \fixemptypage
 
 \title{Signs of Gentrification}
-\subtitle{An Analysis into Amsterdam's Storefront Signage with Machine Learning and Street View Imagery}
+\subtitle{Analyzing Amsterdam's Storefront Signage with Machine Learning and Street View Imagery}
 
 \begin{abstract}
 % % A summary of results should be included. Avoid citations. Maximum length is 200 words.
-Gentrification refers to the process of a neighborhood changing as a result of wealthier residents moving in, bringing improvements but displacing existing residents due to rising prices and changing cultures. Studies have pointed out how storefront signage mirrors gentrification: as a rich communication medium with intentional designs, there are clear differences in signage on gentrified and non-gentrified facades. However, these qualitative studies are labor-intensive and are limited in generalizability, as they were conducted on selected neighborhoods, not city-wide. The current research explored the use of computer vision to overcome these limitations in learning signage aesthetics, and simultaneously detect gentrification in signage from unseen parts of the city. Trained on a set of large-scale street view imagery of Amsterdam, the model was able to distinguish gentrified from non-gentrified signage with F1-score of 0.69. The city-wide pattern of gentrification learned by the model was similar to what has been described by past qualitative research. Moreover, the model's output identified cases where signs did not follow the typical patterns - a nuance previous studies did not conclude on. Lastly, the model has the ability to detect the same aesthetics in unseen images of signage from different areas in the city.
+Gentrification refers to the process of a neighborhood changing as wealthier residents moving in, bringing improvements but displacing existing residents due to rising prices and changing cultures. Studies have pointed out how storefront signage mirrors gentrification: as a communication medium with intentional designs, there are clear differences in signage on gentrified and non-gentrified facades. These qualitative studies, however, are labor-intensive and limited in generalizability, as they were conducted on selected neighborhoods, not city-wide. This paper explores the use of computer vision to overcome these limitations, and simultaneously detect gentrification in signage from unseen parts of the city. Trained on street view imagery of Amsterdam, the model learned a city-wide pattern of gentrification, with characteristics similar to what was described in past qualitative research. This enabled the model to distinguish between gentrified and non-gentrified signage with an F1-score of 0.69. Moreover, the model's output identified cases where signs did not follow typical patterns - a nuance previous studies did not conclude on. Lastly, the model has the ability to detect the same aesthetics from other areas in the city. While the model cannot always correctly detect (non-)gentrification from signage alone, being able to recognize the most prevailing characteristics provides an indication for further investigation.
 \end{abstract}
 
 \begin{teaserfigure}
-    \includegraphics[width=0.95\textwidth]{media/titlepage/output_vis-frontman.jpg}
+    \centering
+    \includegraphics[width=\textwidth]{media/titlepage/frontman.jpg}
 \end{teaserfigure}
 
 \maketitle

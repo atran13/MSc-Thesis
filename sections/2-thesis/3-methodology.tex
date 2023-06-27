@@ -12,14 +12,14 @@ An illustration of the areas of the city covered by each dataset can be seen in 
 {
 \setlength\intextsep{7pt}
 \begin{figure}[h!]
-    \includegraphics[width=0.5\textwidth]{media/methodology/map1.png}
+    \includegraphics[width=0.52\textwidth]{media/methodology/map/map3.png}
     \caption{Areas of Amsterdam present in StreetSwipe and the extended dataset. StreetSwipe had images mainly from the city center (Centrum-Oost and -West), Oost, and Zuid. The extended dataset had images taken from Centrum-West (Jordaan), Oud-West, De Baarsjes, Nieuw-West, Bijlmer, and Gaasperdam.}
     \label{fig:map}
 \end{figure}
 }
 
 \subsubsection{StreetSwipe}
-The main dataset was retrieved from the Street-Swipe project \cite{streetswipe}. These images were originally from Google Street View, and were cropped to focus on facades (examples can be seen in Figure \ref{fig:SS_example}. Using crowd-sourcing, the project lets people decide whether each facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the street view images. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. 
+The main dataset was retrieved from the Street-Swipe project \cite{streetswipe}. These images were originally from Google Street View, and were cropped to focus on facades (examples can be seen in Figure \ref{fig:SS_example}. Using crowd-sourcing, the project lets people decide whether each facade is gentrified, by voting "Yes" (gentrified) or "No" (non-gentrified) on the images. The official \textit{Gentrified} and \textit{Non-gentrified} labels for each facade are based on what the majority voted for. Thus, this dataset represents common visual perception of gentrification. 
 % Additionally, if subsequent voters decide against the majority (e.g. voting \textit{Gentrified} for a non-gentrified-labelled facade), they are also prompted to provide a textual reasoning for their decision. These mismatch responses were also available, however was out of scope of the study. 
 
 \begin{figure}
@@ -85,7 +85,7 @@ Passing the extended dataset through the text detection model returned 2473 inst
 
 \subsubsection{Classification - ResNet}
 
-In order to train and optimize the ResNets on StreetSwipe text instances, the data was split into training, validation and test sets with 80:10:10 ratio. The data was randomly shuffled prior to splitting to maintain class distribution per split. Table \ref{tab:data_split} shows the size of each split in the data as well as class distributions.
+In order to train and optimize the ResNets on StreetSwipe text instances, the data was split into training, validation and test sets with 80:10:10 ratio. The data was randomly shuffled prior to splitting to maintain class distribution per split. Table \ref{tab:data_split} shows the size of each split in the data as well as class distributions. All images were resized and center-cropped to 224x224, and normalized with ImageNet's mean and standard deviation.
 
 {
 \setlength\intextsep{0pt}
