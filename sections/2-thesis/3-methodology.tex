@@ -10,7 +10,7 @@
 An illustration of the areas of the city covered by each dataset can be seen in Figure \ref{fig:map}.
 
 {
-\setlength\intextsep{7pt}
+\setlength\intextsep{0pt}
 \begin{figure}[h!]
     \includegraphics[width=0.52\textwidth]{media/methodology/map/map3.png}
     \caption{Areas of Amsterdam present in StreetSwipe and the extended dataset. StreetSwipe had images mainly from the city center (Centrum-Oost and -West), Oost, and Zuid. The extended dataset had images taken from Centrum-West (Jordaan), Oud-West, De Baarsjes, Nieuw-West, Bijlmer, and Gaasperdam.}
@@ -70,17 +70,13 @@ The data pipeline is visualized in Figure \ref{fig:pipeline}. This section outli
 \end{figure*}
 
 
-\subsubsection{Scene-text detection - CRAFT}
+\subsubsection{Scene text detection - CRAFT}
 
-The first task is to detect and extract signage in the images of both datasets, using the pre-trained CRAFT model via the EasyOCR Python package.
+The first task was to detect and extract signage in the images of both datasets, using the pre-trained CRAFT model via the EasyOCR Python package \cite{noauthor_jaided_nodate}. More specifically, the \textit{detect} method was used, with text confidence threshold \textit{(text\_threshold)} set to 0.75, bounding box extension \textit{(add\_margin)} set to 0, and all other parameters set to their default values. Text instances were cropped out by their bounding boxes and grouped per class.
 
-More specifically, the \textit{detect} method was used, with text confidence threshold \textit{(text\_threshold)} set to 0.75, bounding box extension \textit{(add\_margin)} set to 0, and all other parameters set to their default values.
+StreetSwipe returned 10079 instances in total, with 2610 gentrified instances (26\%) and 7469 non-gentrified instances (74\%). The instances varied in size, typically with width larger than height. The widths ranged from 8 to 1576, and heights ranged from 6 to 795 (see Appendix \ref{sec:apx:appendix2} - Figure \ref{fig:SS_ins_sz} for a visualization of the distributions). These text instances were used to train and optimize the classifier.
 
-Text instances are cropped out by their bounding boxes and grouped per image, per class. 
-
-Passing StreetSwipe through the CRAFT text detection model returned 10079 instances in total, with 2610 gentrified instances (26\%) and 7469 non-gentrified instances (74\%). The instances varied a lot in size, typically with width larger than height. The widths ranged from 8 to 1576, and heights ranged from 6 to 795 (see Appendix \ref{sec:apx:appendix2} - Figure \ref{fig:SS_ins_sz} for a visualization of the distributions). These text instances were used to train and optimize the classifier.
-
-Passing the extended dataset through the text detection model returned 2473 instances in total, with 1633 gentrified instances (66.03\%) and 840 non-gentrified instances (33.97\%). The instances varied in size, typically with width larger than height. The widths ranged from 8 to 510, and heights ranged from 4 to 191 (see Appendix \ref{sec:apx:appendix2} - Figure \ref{fig:pano_ins_sz} for a visualization of the distributions). These text instances were used to test the classifier for generalizability.
+The extended dataset returned 2473 instances in total, with 1633 gentrified instances (66.03\%) and 840 non-gentrified instances (33.97\%). The instances varied in size, typically with width larger than height. The widths ranged from 8 to 510, and heights ranged from 4 to 191 (see Appendix \ref{sec:apx:appendix2} - Figure \ref{fig:pano_ins_sz} for a visualization of the distributions). These text instances were used to test the classifier for generalizability.
 
 
 \subsubsection{Classification - ResNet}
