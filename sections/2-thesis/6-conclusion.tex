@@ -1,23 +1,21 @@
 \section{Conclusion}
 \label{sec:conclusion}
-% Answer each research question and address how the limitations of the study qualify the conclusion.
-% Write your conclusion here. Be sure that the relation between the research gap and your contribution is clear. Be honest about how limitations in the study qualify the answer on the research question.
 
 This study set out to study storefront signage aesthetics in relation to gentrification, utilizing street view image data and computer vision for a larger-scale analysis and better generalizability. By fine-tuning ResNets on 
 the StreetSwipe dataset and analyzing the model output, conclusions to the research questions are as follow:
 
 \begin{enumerate}
-    \item The scene-text detection model CRAFT was able to detect signage with reasonable accuracy and completeness, though noise remains (traffic signs).
+    \item The scene-text detection model CRAFT was able to detect signage with reasonable accuracy and completeness, though noise remains in the form of unwanted text (e.g. traffic signs).
     
     \item A fine-tuned ResNet50 was able to learn signage features and classify them with a macro-average F1 score of 0.69.
     
-    \item There was a gap between the model's performance on Street-Swipe and on extended data of other gentrified/non-gentrified neighborhoods. This suggested that "statistically" gentrified did not completely mean visually gentrified. 
+    \item There was a gap of approximately 10\% between the model's performance on Street-Swipe and on extended data of other gentrified/non-gentrified neighborhoods. This suggested that "statistically" gentrified did not entirely mean visually gentrified. 
     
     \item Characteristics of signage correctly classified by the model were in-line with findings of previous research: gentrified signage looked more homogenized, and were more likely to be in English, while non-gentrified signs varied more in fonts and colors, and were largely in Dutch, with more appearances of other languages.
     
     \item Mis-classified signage with high certainty followed the styles of the class they were assigned to. As classification certainty decreased, the distinction diminished.
     
-    \item Signage of the extended dataset follow the style of the class they were assigned to as learned from StreetSwipe.
+    \item Signage classifications in the extended dataset follow the same characteristics learned from StreetSwipe. However, inspection of corresponding facades showed that the model was not always giving a plausible detection.
 \end{enumerate}
 
-In general, it was found that a computer vision model could do a reasonable job at identifying typical characteristics of gentrified and non-gentrified signage. Further, the model is able to detect the same characteristics on new data, and point out the nuance between the visual and socio-economic states of gentrification. Nonetheless, there were cases where the model failed to detect gentrification based on signage alone. When signage adopted characteristics of the opposite class, perception of gentrification most likely depended on other visual and non-visual features of the facade. While this study was able to show the potential of computer vision in studying signage gentrification, further work is needed in this regard. Expanding the feature space is promising in aiding the model to understand the nuances of human perception.
+In general, it was found that a computer vision model could do a reasonable job at identifying typical characteristics of gentrified and non-gentrified signage. Further, the model is able to detect the same characteristics on new data, and point out the nuance between the visual and socio-economic states of gentrification. Nonetheless, there were cases where the model failed to detect gentrification based on signage alone. When signage adopted characteristics of the opposite class, perception of gentrification most likely depended on other visual and non-visual features of the facade. While this study was able to show the potential of computer vision in studying signage gentrification, further work is needed in this regard. Expanding the feature space beyond visual signals can be promising in aiding computer vision models to understand the nuances of human perception.

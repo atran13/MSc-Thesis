@@ -1,14 +1,15 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Scene-text detection}
-Some examples of the output text instances per class can be seen in Figure \ref{fig:instance_ex}.
+\subsection{Scene text detection}
+\label{subsec:result1}
+Some example signage instances per class can be seen in Figure \ref{fig:instance_ex}.
 
 {
 \setlength\intextsep{7pt}
 \begin{figure}[H]
 \centering
-\begin{subfigure}[b]{0.22\textwidth}
+\begin{subfigure}[b]{0.2\textwidth}
     \includegraphics[width=\textwidth]{media/results/instances/instance_gen.jpg}
     \caption{Gentrified}
 \end{subfigure}
@@ -17,12 +18,13 @@ Some examples of the output text instances per class can be seen in Figure \ref{
     \includegraphics[width=\textwidth]{media/results/instances/instance_non.jpg}
     \caption{Non-gentrified}
 \end{subfigure}
-\caption{Text instances examples.}
+\caption{Signage instances examples.}
 \label{fig:instance_ex}
 \end{figure}
 }
 
-Since there was no bounding box annotations of the signage, evaluation was done by visual inspection. It was found that the text detection model returned almost all text instances present in the original street view images, including non-horizontal and curved text. Cases where the model failed include very small, and therefore illegible texts, especially in lower resolution images. Additionally, the model also returned some noise, namely texts on street signs (e.g. traffic signs, street names), and watermarks ("©Google", as the images in StreetSwipe were originally from Google Street View) - these instances were manually removed.
+It was found that the text detection model returned almost all signage instances present in the original street view images, including signage with non-horizontal and curved text. Cases where the model failed include very small, and therefore illegible texts, especially in lower resolution images. Additionally, the model also returned some noise, namely texts on street signs (e.g. traffic signs, street names), and watermarks ("©Google", as the images in Street-Swipe were originally from Google Street View) - these instances were manually removed.
+
 
 \subsection{Classification}
 \subsubsection{Baseline}
@@ -46,14 +48,14 @@ F1-score                   & Gentrified             & 0.3175    & \multirow{2}{*
 \bottomrule
 \end{tabular}
 \vspace{\baselineskip}
-\caption{Test set classwise and macro-averaged metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
+\caption{Classwise and macro-averaged test set metrics of baseline model (ResNet50, no weighted sampling, no fine-tuning). This model achieved very high performance for non-gentrified signage, but performed poorly on gentrified signage, due to class imbalance.}
 \label{fig:baseline_metrics}
-\vspace{-8mm}
+\vspace{-5mm}
 \end{table}
 % }
 
 \subsubsection{Fine-tuned}
-The best performing model with ResNet18 architecture was found with learning rate set to 0.001, batch size 32, and 60 training epochs. The best performing model with ResNet50 architecture was found with learning rate set to 0.01, batch size 64, and 60 training epochs. The macro-averaged metrics across classes for these models are shown in Table \ref{fig:resnet_compare}. The fine-tuned ResNet50 had better performance, its classwise metrics are shown in Table \ref{fig:resnet50_cls}.
+The best performing model with ResNet18 architecture was found with learning rate set to 0.001, batch size 32, and 60 training epochs. The best performing model with ResNet50 architecture was found with learning rate set to 0.01, batch size 64, and 60 training epochs. The macro-averaged metrics for these models on the validation and test sets are shown in Table \ref{fig:resnet_compare}. The fine-tuned ResNet50 had better performance, its classwise metrics are shown in Table \ref{fig:resnet50_cls}.
 
 % {
 % \setlength\intextsep{10pt}
@@ -68,7 +70,7 @@ Recall                   & 0.6497        & 0.6960        & 0.6506        & \text
 F1-score                 & 0.6222        & 0.6781        & 0.6256        & \textbf{0.6865}       \\ \bottomrule
     \end{tabular}
     \vspace{\baselineskip}
-    \caption{Macro-averaged metrics of the best-performing fine-tuned ResNet18 and ResNet50. Between these two models, the fine-tuned ResNet50 performed better.}
+    \caption{Macro-averaged metrics of fine-tuned ResNet18 and ResNet50 on the validation and test set. Between these two models, the fine-tuned ResNet50 performed better.}
     \label{fig:resnet_compare}
     \vspace{-5mm}
 \end{table}
@@ -92,13 +94,13 @@ F1-score                   & Gentrified             & 0.4674        & \textbf{0.
 \bottomrule
 \end{tabular}
 \vspace{\baselineskip}
-\caption{Classwise metrics of best model (fine-tuned ResNet50). Even though there was clear improvements in classifying gentrified signage compared to the baseline model, this model still did better on non-gentrified signage - most notably shown in the F1-scores of each class.}
+\caption{Classwise metrics of the best model. Even though there was an improvement in classifying gentrified signage compared to the baseline model, this model still performed better for non-gentrified signage, as shown in the F1-scores of each class.}
 \label{fig:resnet50_cls}
 \vspace{-7mm}
 \end{table}
 % }
 
-\subsection{Testing on extended data}
+\subsection{Testing on the extended data}
 The average and classwise metrics of the best model in classifying the extended data are presented in Table \ref{fig:resnet50_pano}.
 
 % {
@@ -106,7 +108,7 @@ The average and classwise metrics of the best model in classifying the extended 
 \begin{table}[h!]
 \begin{tabular}{llcc}
 \toprule
-\multirow{2}{*}{Metrics}   & \multirow{2}{*}{Class} & \multicolumn{2}{c}{Extended data}   \\ \cline{3-4} 
+\multirow{2}{*}{Metrics}   & \multirow{2}{*}{Class} & \multicolumn{2}{c}{ResNet50}   \\ \cline{3-4} 
                            &                        & Classwise & Average                 \\ \hline
 Accuracy                   & Gentrified             & 0.5340    & \multirow{2}{*}{0.5807} \\
                            & Non-gentrified         & 0.6274    &                         \\
@@ -119,41 +121,45 @@ F1-score                   & Gentrified             & 0.6189    & \multirow{2}{*
 \bottomrule
 \end{tabular}
 \vspace{\baselineskip}
-\caption{Macro-average and classwise metrics of the best model in classifying the extended data. Compared to the metrics on StreetSwipe's test set, there was a consistent decrease of approximately 10\% in all average metrics on this data. Notably, this decrease mainly came from a worsened performance in classifying non-gentrified signage.}
+\caption{Macro-averaged and classwise metrics of the best model on the extended data. Compared to the metrics on StreetSwipe's test set (Table \ref{fig:resnet_compare}), there was a decrease of approximately 10\% in all average metrics.}
 \label{fig:resnet50_pano}
-\vspace{-5mm}
+\vspace{-7mm}
 \end{table}
 % }
 
 \subsection{Inspecting model's output}
+\label{subsec:result4}
 
 \subsubsection{Correct classifications}
 
-StreetSwipe's signage per class with classification probability of 80\% and above were inspected. This showed the most typical and distinguishing characteristics of signage per class, which can be seen in Figure \ref{fig:output_vis}.
+StreetSwipe's correctly classified signage showed the most typical and distinguishing characteristics of signage per class, which can be seen in Figure \ref{fig:output_vis}.
 
-Gentrified signage were more similar in font types and often did not vary in text sizes, while non-gentrified signage used more types of fonts, sometimes more than one fonts on a single sign, and sometimes with varying text sizes and orientations. In addition, gentrified signs mostly had white texts, with minimal variation in background colors. Non-gentrified signs were the opposite: texts varied more in colors, as well as background colors; and the appearance of neon signage in this class was also notable. In terms of languages, gentrified signage had more English text, with very rare appearances of non-Latin languages (e.g. Korean), while non-gentrified ones were largely in Dutch, with appearances of some English, Chinese and Arabic. And finally, although out of scope of the study, the model also picked up graffiti as instances belonging to non-gentrified facades.
+Gentrified signage were more similar in font types (more modern and minimal fonts) and often did not vary in text sizes, while non-gentrified signage used more types of fonts (more classic and decorated fonts), sometimes more than one font on a single sign, and sometimes with varying text sizes and orientations. In addition, gentrified signs mostly had white texts, with minimal variation in background colors. Non-gentrified signs were the opposite: text colors and background colors varied more; plus a notable usage of neon signage. In terms of languages, besides Dutch, gentrified signage had more English text, with very rare appearances of non-Latin languages (e.g. Korean); while non-gentrified ones were largely in Dutch, with appearances of English, Chinese and Arabic. And finally, although out of scope of the study, the model also picked up graffiti as text instances belonging to non-gentrified facades.
 
 
 \subsubsection{Incorrect classifications} 
 
-StreetSwipe's mis-classified signage per class with low (50-70\%) and high ($ \geq 80\% $) classification probabilities were inspected. The mis-classified instances with high certainty showed similar characteristics to correctly classified instances (gentrified signage: mainly white text, less variation in font styles and background colors; non-gentrified signage: more variation in fonts, text colors and background colors). On the other hand, mis-classified instances with lower certainty showed a more nuanced picture, whereby if distinguishing features per class appeared together in one signage (e.g. non-white text (more typical of non-gentrified) on white or dark background (more typical of gentrified), signal strength diminished and the model's outputs of the two classes were less obviously distinguishable. Results can be seen in Figure \ref{fig:output_vis_SS_incorrect}.
+StreetSwipe's misclassified signage showed characteristics of cases the model failed to distinguish. The misclassified instances with high certainty showed similar characteristics to correctly classified instances (gentrified: minimal text fonts and colors, less variation in font styles and background colors; non-gentrified: more variation in fonts, text colors and background colors). On the other hand, mis-classified instances with lower certainty showed a more nuanced picture. Signal strength diminished and the model's outputs of the two classes were more or less indistinguishable. There were similar variations in font styles, text colors and background colors, without any characteristic that stood out. Results can be seen in Figure \ref{fig:output_vis_SS_incorrect}.
 
 
 \subsubsection{Classifications on extended data}
 
-Model's classifications on the extended data's signage with classification probability of 80\% and above were inspected (disregarding ground truth label). Signage classified per class followed the same characteristics learned from StreetSwipe. Results can be seen in Figure \ref{fig:output_vis_pano}.
+On the extended data, signage classified by the model followed the same patterns per class as learned from StreetSwipe; however, visual inspection of the corresponding facades showed not all classifications were true to human perception. Results can be seen in Figure \ref{fig:output_vis_pano}.
 
-
-\begin{figure*}[]
+% {
+% \setlength{\floatsep}{0pt}
+\begin{figure*}[hbtp]
     \centering
-    \includegraphics[width=0.8\textwidth]{media/results/output_vis-SS_correct1.jpg}
+    \includegraphics[width=\textwidth]{media/results/output_vis-SS_correct1.jpg}
         \caption{StreetSwipe's correctly classified signage per class with probability of 80\% and above. Note how non-gentrified signage varied more in their characteristics (more font types, colors, and languages) while gentrified signage appeared more homogenized.}
         \label{fig:output_vis}
-    \includegraphics[width=0.9\textwidth]{media/results/output_vis-SS_incorrect.jpg}
-        \caption{StreetSwipe's incorrectly classified signage per class, grouped by high and low classification certainty. Incorrect classifications with high certainty from both classes generally had the same characteristics as correctly classified instances. As classification certainty decreased, variations in fonts and colors were no longer distinctive across the two classes.}
+    \vspace{0.5cm}
+    \includegraphics[width=0.8\textwidth]{media/results/output_vis-SS_incorrect.jpg}
+        \caption{StreetSwipe's misclassified signage per class, grouped by high and low classification certainty. Incorrect classifications with high certainty from both classes generally had the same characteristics as correctly classified instances. As classification certainty decreased, variations in fonts and colors were no longer distinctive across the two classes.}
         \label{fig:output_vis_SS_incorrect}
-    \includegraphics[width=0.6\textwidth]{media/results/output_vis-pano1.jpg}
-        \caption{Model's classifications on the extended data's signage with classification probability of 80\% and above (disregarding ground truth label). It's notable how the model's inference on this data showed the same characteristics per class as in StreetSwipe.}
+    \vspace{0.6cm}
+    \includegraphics[width=\textwidth]{media/results/output_vis_pano.jpg}
+        \caption{Model's classifications on the extended data's signage with classification probability of 80\% and above (disregarding ground truth label). While the model classified signage based on the same typical class characteristics as in StreetSwipe, classifications were not always plausible: Bánh Mì Deli (left) and Personality (right) were gentrified-looking facades, but Personality was misclassified as non-gentrified via its signage.}
         \label{fig:output_vis_pano}
 \end{figure*}
-
+% }
